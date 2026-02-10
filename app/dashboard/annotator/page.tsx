@@ -1,0 +1,9 @@
+function Annotator() {
+  return (
+    <>
+      <div>Annotator</div>
+    </>
+  )
+}
+
+export default Annotator
