@@ -10,6 +10,7 @@ import { Badge } from "@/src/components/ui/badge";
 import { Input } from "@/src/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { BookOpen, FileText, Users, Eye, Download, Calendar, Search, Filter } from "lucide-react";
+import Navbar from "@/src/components/layouts/Navbar";
 
 // Mock data for journal articles
 const mockArticles = [
@@ -92,6 +93,8 @@ const Journal: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Header */}
+      <Navbar/>
+      
       <div className="bg-gradient-to-r from-blue-500 to-green-500 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -119,14 +122,32 @@ const Journal: React.FC = () => {
         </div>
       </div>
 
+      
+
       <div className="container mx-auto px-4 py-8 ">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5 bg-gray-100 rounded-lg overflow-hidden">
-            <TabsTrigger value="browse">Browse Articles</TabsTrigger>
-            <TabsTrigger value="submit">Submit</TabsTrigger>
-            <TabsTrigger value="review">Review</TabsTrigger>
-            <TabsTrigger value="editorial">Editorial</TabsTrigger>
-            <TabsTrigger value="about">About</TabsTrigger>
+        
+        <Tabs value={activeTab} onValueChange={setActiveTab} >
+          <TabsList className="grid w-full grid-cols-5 bg-gray-200 rounded-lg overflow-hidden">
+            <TabsTrigger value="browse" className="rounded-md px-4 py-1.5 text-sm font-medium 
+                 data-[state=active]:bg-white 
+                 data-[state=active]:text-black 
+                 data-[state=active]:shadow-sm" >Browse Articles</TabsTrigger>
+            <TabsTrigger value="submit" className="rounded-md px-4 py-1.5 text-sm font-medium 
+                 data-[state=active]:bg-white 
+                 data-[state=active]:text-black 
+                 data-[state=active]:shadow-sm" >Submit</TabsTrigger>
+            <TabsTrigger value="review" className="rounded-md px-4 py-1.5 text-sm font-medium 
+                 data-[state=active]:bg-white 
+                 data-[state=active]:text-black 
+                 data-[state=active]:shadow-sm">Review</TabsTrigger>
+            <TabsTrigger value="editorial" className="rounded-md px-4 py-1.5 text-sm font-medium 
+                 data-[state=active]:bg-white 
+                 data-[state=active]:text-black 
+                 data-[state=active]:shadow-sm">Editorial</TabsTrigger>
+            <TabsTrigger value="about" className="rounded-md px-4 py-1.5 text-sm font-medium 
+                 data-[state=active]:bg-white 
+                 data-[state=active]:text-black 
+                 data-[state=active]:shadow-sm">About</TabsTrigger>
           </TabsList>
 
           <TabsContent value="browse" className="space-y-6">
@@ -412,15 +433,15 @@ const Journal: React.FC = () => {
                   <h3 className="font-semibold">Recent Editorial Actions</h3>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                      <span className="text-sm">Assigned reviewers for "AI-Assisted Breast Cancer Detection"</span>
+                      <span className="text-sm">Assigned reviewers for &quot;AI-Assisted Breast Cancer Detection&quot;</span>
                       <span className="text-xs text-muted-foreground">2 hours ago</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                      <span className="text-sm">Accepted "MONAI-Based Liver Segmentation" for publication</span>
+                      <span className="text-sm">Accepted &quot;MONAI-Based Liver Segmentation&quot; for publication</span>
                       <span className="text-xs text-muted-foreground">1 day ago</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                      <span className="text-sm">Requested revisions for "Cervical Cancer Screening" study</span>
+                      <span className="text-sm">Requested revisions for &quot;Cervical Cancer Screening&quot; study</span>
                       <span className="text-xs text-muted-foreground">3 days ago</span>
                     </div>
                   </div>

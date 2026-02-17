@@ -118,8 +118,8 @@ export const ComplianceModule = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "compliant": return <Badge className="bg-green-500">Compliant</Badge>;
-      case "attention": return <Badge variant="destructive">Needs Attention</Badge>;
-      case "violation": return <Badge variant="destructive">Violation</Badge>;
+      case "attention": return <Badge className="text-red-500">Needs Attention</Badge>;
+      case "violation": return <Badge className="text-red-500">Violation</Badge>;
       default: return <Badge variant="outline">Unknown</Badge>;
     }
   };
@@ -130,7 +130,7 @@ export const ComplianceModule = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold">Compliance Dashboard</h2>
-          <p className="text-muted-foreground">Monitor regulatory compliance and security standards</p>
+          <p className="text-gray-500">Monitor regulatory compliance and security standards</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" size="sm">
@@ -149,36 +149,36 @@ export const ComplianceModule = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">NDPR Compliance</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Shield className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">{complianceData.ndprCompliance.overall}%</div>
             <Progress value={complianceData.ndprCompliance.overall} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-2">Nigeria Data Protection Regulation</p>
+            <p className="text-xs text-gray-500 mt-2">Nigeria Data Protection Regulation</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">HIPAA Compliance</CardTitle>
-            <Lock className="h-4 w-4 text-muted-foreground" />
+            <Lock className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">{complianceData.hipaaCompliance.overall}%</div>
-            <Progress value={complianceData.hipaaCompliance.overall} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-2">Health Insurance Portability Act</p>
+            <Progress value={complianceData.hipaaCompliance.overall} className="mt-2 " />
+            <p className="text-xs text-gray-500 mt-2">Health Insurance Portability Act</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">GDPR Compliance</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <FileText className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">{complianceData.gdprCompliance.overall}%</div>
             <Progress value={complianceData.gdprCompliance.overall} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-2">General Data Protection Regulation</p>
+            <p className="text-xs text-gray-500 mt-2">General Data Protection Regulation</p>
           </CardContent>
         </Card>
       </div>
@@ -316,8 +316,8 @@ export const ComplianceModule = () => {
                           </Badge>
                           <Badge variant="outline">Score: {audit.score}%</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">Auditor: {audit.auditor}</p>
-                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                        <p className="text-sm text-gray-500">Auditor: {audit.auditor}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
                           <span>Date: {audit.date}</span>
                           <span>Findings: {audit.findings}</span>
                           <span>Next Due: {audit.nextDue}</span>
@@ -347,7 +347,7 @@ export const ComplianceModule = () => {
                   <div className="text-center py-8">
                     <CheckCircle className="h-16 w-16 mx-auto text-green-500 mb-4" />
                     <h3 className="text-lg font-semibold mb-2">No Active Violations</h3>
-                    <p className="text-muted-foreground">All compliance requirements are currently met</p>
+                    <p className="text-gray-500">All compliance requirements are currently met</p>
                   </div>
                 ) : (
                   complianceData.violations.map((violation) => (
@@ -367,7 +367,7 @@ export const ComplianceModule = () => {
                             </Badge>
                           </div>
                           <p className="text-sm">{violation.description}</p>
-                          <p className="text-xs text-muted-foreground">Date: {violation.date}</p>
+                          <p className="text-xs text-gray-500">Date: {violation.date}</p>
                           {violation.resolution && (
                             <p className="text-xs text-green-600">Resolution: {violation.resolution}</p>
                           )}
@@ -401,8 +401,8 @@ export const ComplianceModule = () => {
                           <h3 className="font-semibold">{cert.name}</h3>
                           <Badge className="bg-green-500">{cert.status}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">Certifying Body: {cert.certifyingBody}</p>
-                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                        <p className="text-sm text-gray-500">Certifying Body: {cert.certifyingBody}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
                           <span>Issued: {cert.issueDate}</span>
                           <span>Expires: {cert.expiryDate}</span>
                         </div>

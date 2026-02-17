@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Copy, ExternalLink, Search, BookOpen, Award, Calendar, Users, Quote, CheckCircle } from "lucide-react";
 
 import { toast } from "sonner";
+import Navbar from "@/src/components/layouts/Navbar";
 
 const publications = [
   {
@@ -174,10 +175,11 @@ ER  -`;
 
   return (
     <div className="min-h-screen bg-background">
-   
+   <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
+      
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-4">
             NCIR Publications & Citations
@@ -491,7 +493,7 @@ Available at: https://ncir.gov.ng/datasets/[dataset-id]`}
                           <li>• Mention the specific version if applicable</li>
                           <li>• Include the access date for online resources</li>
                           <li>• Acknowledge data contributors and institutions</li>
-                          <li>• Follow your journal's specific citation style</li>
+                          <li>• Follow your journal&apos;s specific citation style</li>
                         </ul>
                       </CardContent>
                     </Card>

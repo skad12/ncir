@@ -255,19 +255,19 @@ export const PublicDatasets = () => {
           {filtered.map(ds => (
             <Card
               key={ds.id}
-              className="hover:shadow-lg transition-shadow"
+              className="hover:shadow-lg transition-shadow  "
             >
               <CardHeader>
-                <div className="flex justify-between gap-3">
-                  <div>
-                    <CardTitle className="text-lg mb-1">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg mb-2">
                       {ds.title}
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription  className="text-sm mb-3">
                       {ds.description}
                     </CardDescription>
                   </div>
-                  <Badge variant="secondary">{ds.id}</Badge>
+                  <span className=""><Badge className=" text-xs bg-blue-500 text-white px-2 ml-2">{ds.id}</Badge></span>
                 </div>
 
                 <div className="flex flex-wrap gap-2 mt-3">
