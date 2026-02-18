@@ -150,14 +150,14 @@ export default function EthicsOfficerPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Sticky header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-border shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-4">
-              <Shield className="h-8 w-8 text-primary" />
+              <Shield className="h-8 w-8 text-green-500" />
               <div>
                 <h1 className="text-xl font-bold">Ethics & Compliance</h1>
-                <Badge className="bg-orange-500">Ethics Officer</Badge>
+                <Badge className="bg-orange-500 text-white">Ethics Officer</Badge>
               </div>
             </div>
 
@@ -185,7 +185,7 @@ export default function EthicsOfficerPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div>
             <h2 className="text-2xl font-bold">Ethics & Compliance Dashboard</h2>
-            <p className="text-muted-foreground">Monitor ethical compliance and audit platform activities</p>
+            <p className="text-gray-500">Monitor ethical compliance and audit platform activities</p>
           </div>
           <div className="flex items-center space-x-3">
             <Button variant="outline" size="sm">
@@ -204,55 +204,67 @@ export default function EthicsOfficerPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <Clock className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{ethicsData.pendingApprovals.length}</div>
-              <p className="text-xs text-muted-foreground">Awaiting approval</p>
+              <p className="text-xs text-gray-500">Awaiting approval</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
-              <Shield className="h-4 w-4 text-muted-foreground" />
+              <Shield className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">96%</div>
-              <p className="text-xs text-muted-foreground">This month</p>
+              <p className="text-xs text-gray-500">This month</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Active Violations</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <AlertTriangle className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{ethicsData.violations.filter(v => v.status !== "resolved").length}</div>
-              <p className="text-xs text-muted-foreground">Requires action</p>
+              <p className="text-xs text-gray-500">Requires action</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Audit Events</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+              <Activity className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">247</div>
-              <p className="text-xs text-muted-foreground">Last 30 days</p>
+              <p className="text-xs text-gray-500">Last 30 days</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Tabs */}
         <Tabs defaultValue="pending" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="pending">Pending Reviews</TabsTrigger>
-            <TabsTrigger value="audit">Audit Trail</TabsTrigger>
-            <TabsTrigger value="violations">Violations</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg">
+            <TabsTrigger value="pending" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 " >Pending Reviews</TabsTrigger>
+            <TabsTrigger value="audit" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Audit Trail</TabsTrigger>
+            <TabsTrigger value="violations" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Violations</TabsTrigger>
+            <TabsTrigger value="reports" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Reports</TabsTrigger>
           </TabsList>
 
           {/* Pending Reviews */}
@@ -275,8 +287,8 @@ export default function EthicsOfficerPage() {
                             </Badge>
                             <Badge variant="secondary">{approval.type}</Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground">{approval.institution}</p>
-                          <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                          <p className="text-sm text-gray-500">{approval.institution}</p>
+                          <div className="flex items-center space-x-4 text-xs text-gray-500">
                             <span>Submitted by: {approval.submittedBy}</span>
                             <span>Date: {approval.submittedDate}</span>
                             <span>ID: {approval.id}</span>
@@ -385,14 +397,14 @@ export default function EthicsOfficerPage() {
                           }`} />
                           <div>
                             <p className="font-medium">{event.action}</p>
-                            <p className="text-sm text-muted-foreground">{event.user}</p>
-                            <p className="text-xs text-muted-foreground">{event.details}</p>
+                            <p className="text-sm text-gray-500">{event.user}</p>
+                            <p className="text-xs text-gray-500">{event.details}</p>
                           </div>
                         </div>
 
                         <div className="text-right">
                           <p className="text-sm font-medium">{event.dataset}</p>
-                          <p className="text-xs text-muted-foreground">{event.timestamp}</p>
+                          <p className="text-xs text-gray-500">{event.timestamp}</p>
                           <Badge variant={event.compliance === "approved" ? "default" : "secondary"} className="text-xs">
                             {event.compliance}
                           </Badge>
@@ -430,8 +442,8 @@ export default function EthicsOfficerPage() {
                             </Badge>
                           </div>
                           <p className="text-sm">{violation.description}</p>
-                          <p className="text-sm text-muted-foreground">{violation.institution}</p>
-                          <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                          <p className="text-sm text-gray-500">{violation.institution}</p>
+                          <div className="flex items-center space-x-4 text-xs text-gray-500">
                             <span>Reported: {violation.dateReported}</span>
                             {violation.dateResolved && <span>Resolved: {violation.dateResolved}</span>}
                             <span>ID: {violation.id}</span>
@@ -476,22 +488,22 @@ export default function EthicsOfficerPage() {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="text-center">
                           <p className="text-2xl font-bold">{report.totalSubmissions}</p>
-                          <p className="text-xs text-muted-foreground">Total Submissions</p>
+                          <p className="text-xs text-gray-500">Total Submissions</p>
                         </div>
 
                         <div className="text-center">
                           <p className="text-2xl font-bold text-green-600">{report.compliantSubmissions}</p>
-                          <p className="text-xs text-muted-foreground">Compliant</p>
+                          <p className="text-xs text-gray-500">Compliant</p>
                         </div>
 
                         <div className="text-center">
                           <p className="text-2xl font-bold text-red-600">{report.violations}</p>
-                          <p className="text-xs text-muted-foreground">Violations</p>
+                          <p className="text-xs text-gray-500">Violations</p>
                         </div>
 
                         <div className="text-center">
                           <p className="text-2xl font-bold">{report.avgReviewTime}</p>
-                          <p className="text-xs text-muted-foreground">Avg Review Time</p>
+                          <p className="text-xs text-gray-500">Avg Review Time</p>
                         </div>
                       </div>
                     </div>

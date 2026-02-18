@@ -181,10 +181,10 @@ ER  -`;
         {/* Header */}
       
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl font-bold  mb-4">
             NCIR Publications & Citations
           </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-gray-500 max-w-3xl mx-auto">
             Explore research publications that have utilized NCIR datasets and learn how to properly cite our data collections in your own research.
           </p>
         </div>
@@ -193,44 +193,50 @@ ER  -`;
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6 text-center">
-              <BookOpen className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold text-foreground">{publications.length}</div>
-              <div className="text-sm text-muted-foreground">Total Publications</div>
+              <BookOpen className="h-8 w-8 text-green-500 mx-auto mb-2" />
+              <div className="text-2xl font-bold ">{publications.length}</div>
+              <div className="text-sm text-gray-500">Total Publications</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
-              <Quote className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold text-foreground">
+              <Quote className="h-8 w-8 text-green-500 mx-auto mb-2" />
+              <div className="text-2xl font-boldgray-500">
                 {publications.reduce((sum, p) => sum + p.citationCount, 0)}
               </div>
-              <div className="text-sm text-muted-foreground">Total Citations</div>
+              <div className="text-sm text-gray-500">Total Citations</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold text-foreground">
+              <Users className="h-8 w-8 text-green-500 mx-auto mb-2" />
+              <div className="text-2xl font-bold">
                 {new Set(publications.flatMap(p => p.authors)).size}
               </div>
-              <div className="text-sm text-muted-foreground">Unique Authors</div>
+              <div className="text-sm text-gray-500">Unique Authors</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
-              <Award className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold text-foreground">
+              <Award className="h-8 w-8 text-green-500 mx-auto mb-2" />
+              <div className="text-2xl font-bold ">
                 {publications.filter(p => p.openAccess).length}
               </div>
-              <div className="text-sm text-muted-foreground">Open Access</div>
+              <div className="text-sm text-gray-500">Open Access</div>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="publications" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="publications">Publications</TabsTrigger>
-            <TabsTrigger value="cite-datasets">Cite Datasets</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 h-12 bg-gray-100 p-1 rounded-lg">
+            <TabsTrigger value="publications" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               ">Publications</TabsTrigger>
+            <TabsTrigger value="cite-datasets" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               ">Cite Datasets</TabsTrigger>
           </TabsList>
 
           {/* Publications Tab */}
@@ -238,22 +244,22 @@ ER  -`;
             {/* Filters */}
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500"/>
                 <Input
                   placeholder="Search publications by title, author, or keywords..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10  border-gray-200 focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <Select value={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger className="w-full md:w-32">
                   <SelectValue placeholder="Year" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-200">
                   <SelectItem value="all">All Years</SelectItem>
                   {years.map(year => (
-                    <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
+                    <SelectItem key={year} value={year.toString()} className="hover:bg-gray-200">{year}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -261,10 +267,10 @@ ER  -`;
                 <SelectTrigger className="w-full md:w-48">
                   <SelectValue placeholder="Publication Type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-200">
                   <SelectItem value="all">All Types</SelectItem>
                   {types.map(type => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                    <SelectItem key={type} value={type} className="hover:bg-gray-200">{type}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -272,10 +278,10 @@ ER  -`;
                 <SelectTrigger className="w-full md:w-32">
                   <SelectValue placeholder="Dataset" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-200">
                   <SelectItem value="all">All Datasets</SelectItem>
                   {datasets.map(dataset => (
-                    <SelectItem key={dataset} value={dataset}>{dataset}</SelectItem>
+                    <SelectItem key={dataset} value={dataset} className="hover:bg-gray-200">{dataset}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -304,7 +310,7 @@ ER  -`;
                         </CardDescription>
                       </div>
                       <div className="flex flex-col gap-2 ml-4">
-                        <Badge variant="secondary">{publication.type}</Badge>
+                        <Badge className="bg-blue-500 text-white">{publication.type}</Badge>
                         {publication.openAccess && (
                           <Badge variant="default" className="bg-green-100 text-green-800">
                             Open Access
@@ -316,7 +322,7 @@ ER  -`;
                   
                   <CardContent>
                     <div className="mb-4">
-                      <p className="text-sm text-muted-foreground">{publication.abstract}</p>
+                      <p className="text-sm text-gray-500">{publication.abstract}</p>
                     </div>
 
                     <div className="mb-4">
@@ -324,7 +330,7 @@ ER  -`;
                         <strong>NCIR Datasets Used:</strong>
                         <div className="flex gap-2 mt-1">
                           {publication.ncirDatasets.map(dataset => (
-                            <Badge key={dataset} variant="outline">{dataset}</Badge>
+                            <Badge key={dataset} className="text-xs border-gray-200">{dataset}</Badge>
                           ))}
                         </div>
                       </div>
@@ -335,7 +341,7 @@ ER  -`;
                         <strong>Keywords:</strong>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {publication.keywords.map(keyword => (
-                            <Badge key={keyword} variant="outline" className="text-xs">
+                            <Badge key={keyword} className="text-xs border-gray-200">
                               {keyword}
                             </Badge>
                           ))}
@@ -344,7 +350,7 @@ ER  -`;
                     </div>
 
                     <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t">
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
                         <span className="flex items-center gap-1">
                           <Quote className="h-4 w-4" />
                           {publication.citationCount} citations
@@ -432,7 +438,7 @@ Available at: https://ncir.gov.ng/datasets/[dataset-id]`}
                   <h3 className="text-lg font-semibold">Dataset-Specific Citations</h3>
                   
                   {/* NCR-001 */}
-                  <Card className="border-l-4 border-l-primary">
+                  <Card className="border-l-4 border-l-green-500">
                     <CardHeader>
                       <CardTitle className="text-base">NCR-001: Breast Cancer Mammography Collection</CardTitle>
                     </CardHeader>

@@ -40,7 +40,7 @@ export default function DashboardPage() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-muted-foreground">Loading dashboard…</div>
+        <div className="text-gray-500">Loading dashboard…</div>
       </div>
     );
   }
@@ -84,14 +84,14 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar handles sticky header + role badge */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-border shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-4">
-              <Shield className="h-8 w-8 text-primary" />
+              <Shield className="h-8 w-8 text-green-500" />
               <div>
                 <h1 className="text-xl font-bold">Contributor</h1>
-                <Badge className="bg-orange-500">Contributor</Badge>
+                <Badge className="bg-blue-500 text-white">Contributor</Badge>
               </div>
             </div>
 
@@ -114,12 +114,24 @@ export default function DashboardPage() {
       </header>
       {/* main content (pad for navbar) */}
       <main className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="workspace">Workspace</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+        <Tabs defaultValue="overview" className="space-y-6 ">
+          <TabsList className="grid w-full h-12 grid-cols-4 bg-gray-100 p-1 rounded-lg ">
+            <TabsTrigger value="overview"  className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Overview</TabsTrigger>
+            <TabsTrigger value="workspace"  className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               ">Workspace</TabsTrigger>
+            <TabsTrigger value="analytics"  className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                ">Analytics</TabsTrigger>
+            <TabsTrigger value="settings"  className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                ">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -128,44 +140,44 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium">Total Images</CardTitle>
-                  <Database className="h-4 w-4 text-muted-foreground" />
+                  <Database className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">24,531</div>
-                  <p className="text-xs text-muted-foreground">+12% from last month</p>
+                  <p className="text-xs text-gray-500">+12% from last month</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <Users className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">89</div>
-                  <p className="text-xs text-muted-foreground">Across 15 institutions</p>
+                  <p className="text-xs text-gray-500">Across 15 institutions</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium">Annotations</CardTitle>
-                  <Brain className="h-4 w-4 text-muted-foreground" />
+                  <Brain className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">18,442</div>
-                  <p className="text-xs text-muted-foreground">75% completion rate</p>
+                  <p className="text-xs text-gray-500">75% completion rate</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                   <CardTitle className="text-sm font-medium">Compliance</CardTitle>
-                  <Shield className="h-4 w-4 text-muted-foreground" />
+                  <Shield className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-green-600">100%</div>
-                  <p className="text-xs text-muted-foreground">NDPR compliant</p>
+                  <p className="text-xs text-gray-500">NDPR compliant</p>
                 </CardContent>
               </Card>
             </div>
@@ -246,27 +258,27 @@ export default function DashboardPage() {
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">New dataset uploaded</p>
-                      <p className="text-xs text-muted-foreground">Lagos University Hospital</p>
+                      <p className="text-xs text-gray-500">Lagos University Hospital</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">2m ago</span>
+                    <span className="text-xs text-gray-500">2m ago</span>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Annotation completed</p>
-                      <p className="text-xs text-muted-foreground">Chest X-ray series</p>
+                      <p className="text-xs text-gray-500">Chest X-ray series</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">15m ago</span>
+                    <span className="text-xs text-gray-500">15m ago</span>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Research access approved</p>
-                      <p className="text-xs text-muted-foreground">University of Ibadan</p>
+                      <p className="text-xs text-gray-500">University of Ibadan</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">1h ago</span>
+                    <span className="text-xs text-gray-500">1h ago</span>
                   </div>
                 </CardContent>
               </Card>
@@ -288,9 +300,9 @@ export default function DashboardPage() {
           <TabsContent value="settings">
             <Card>
               <CardContent className="pt-6 text-center">
-                <Settings className="h-16 w-16 mx-auto text-primary mb-4" />
+                <Settings className="h-16 w-16 mx-auto text-green-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">System Settings</h3>
-                <p className="text-muted-foreground">Configure platform settings and preferences</p>
+                <p className="text-gray-500">Configure platform settings and preferences</p>
               </CardContent>
             </Card>
           </TabsContent>

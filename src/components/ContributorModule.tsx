@@ -56,7 +56,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center text-muted-foreground">
+          <div className="text-center text-gray-500">
             Access restricted to Contributors only.
           </div>
         </CardContent>
@@ -68,21 +68,21 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Data Contribution</h2>
-          <p className="text-muted-foreground">Upload and manage cancer imaging datasets</p>
+          <h2 className="text-2xl font-bold ">Data Contribution</h2>
+          <p className="text-gray-500">Upload and manage cancer imaging datasets</p>
         </div>
-        <Badge variant="secondary" className="px-3 py-1">
+        <Badge variant="secondary" className="px-3 py-1 bg-blue-500 text-white">
           Contributor Portal
         </Badge>
       </div>
 
       <Tabs value={uploadMethod} onValueChange={(value) => setUploadMethod(value as 'manual' | 'pacs')}>
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="manual" className="flex items-center space-x-2">
+        <TabsList className="grid w-full grid-cols-2 h-12 bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger value="manual" className="flex items-center space-x-2 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm">
             <Upload className="h-4 w-4" />
             <span>Manual Upload</span>
           </TabsTrigger>
-          <TabsTrigger value="pacs" className="flex items-center space-x-2">
+          <TabsTrigger value="pacs" className="flex items-center space-x-2 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm">
             <Server className="h-4 w-4" />
             <span>PACS Integration</span>
           </TabsTrigger>
@@ -91,7 +91,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
         <TabsContent value="manual" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm">
                 <Upload className="h-5 w-5" />
                 <span>Manual Image Upload</span>
               </CardTitle>
@@ -101,10 +101,10 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Upload Area */}
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                <Upload className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+                <Upload className="h-12 w-12 mx-auto text-gray-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Drop files here or click to browse</h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-gray-500 mb-4">
                   Supports DICOM (.dcm), TIFF, PNG, JPEG2000. Maximum 500MB per file.
                 </p>
                 <Button variant="medical">
@@ -131,7 +131,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select modality" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-gray-200">
                       <SelectItem value="ct">CT Scan</SelectItem>
                       <SelectItem value="mri">MRI</SelectItem>
                       <SelectItem value="xray">X-Ray</SelectItem>
@@ -148,7 +148,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                     <SelectTrigger>
                       <SelectValue placeholder="Select cancer type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border-gray-200">
                       <SelectItem value="breast">Breast Cancer</SelectItem>
                       <SelectItem value="lung">Lung Cancer</SelectItem>
                       <SelectItem value="cervical">Cervical Cancer</SelectItem>
@@ -165,6 +165,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   <Input 
                     id="hospital" 
                     placeholder="e.g., Lagos University Teaching Hospital"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -174,6 +175,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                     id="patient-count" 
                     type="number" 
                     placeholder="e.g., 25"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -184,6 +186,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   id="description" 
                   placeholder="Brief description of the imaging dataset, patient demographics, clinical context..."
                   rows={3}
+                   className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -289,7 +292,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                     </div>
                     <Badge variant="secondary">Connected</Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className="text-sm text-gray-500 mt-2">
                     Last successful connection: 2 minutes ago
                   </p>
                 </CardContent>
@@ -348,7 +351,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                           <input type="checkbox" className="rounded" />
                           <div>
                             <p className="font-medium">{study.id}</p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-gray-500">
                               {study.patient} • {study.date} • {study.studies} series
                             </p>
                           </div>
@@ -409,14 +412,14 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                 progress: 100
               },
             ].map((upload) => (
-              <div key={upload.id} className="flex items-center justify-between p-4 border rounded-lg">
+              <div key={upload.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                 <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-secondary to-primary rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
                     <Database className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <p className="font-medium">{upload.name}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-500">
                       {upload.id} • {upload.date} • {upload.images} images
                     </p>
                     {upload.status === "Processing" && (
@@ -428,8 +431,8 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                 </div>
                 <Badge 
                   className={
-                    upload.status === "Completed" ? "bg-green-500" :
-                    upload.status === "Processing" ? "bg-blue-500" : "bg-orange-500"
+                    upload.status === "Completed" ? "bg-green-500 text-white" :
+                    upload.status === "Processing" ? "bg-blue-500 text-white" : "bg-orange-500 text-white"
                   }
                 >
                   {upload.status}

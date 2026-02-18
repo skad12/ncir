@@ -83,11 +83,23 @@ export default function Page() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 ">
           <div className="bg-gray-100 rounded-lg ">
-          <TabsList className="grid w-full grid-cols-4  ">
-            <TabsTrigger value="overview" className="focus:bg-white">Overview</TabsTrigger>
-            <TabsTrigger value="workspace" className="focus:bg-white">Workspace</TabsTrigger>
-            <TabsTrigger value="analytics" className="focus:bg-white">Analytics</TabsTrigger>
-            <TabsTrigger value="settings" className="focus:bg-white">Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg  ">
+            <TabsTrigger value="overview" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Overview</TabsTrigger>
+            <TabsTrigger value="workspace" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 " >Workspace</TabsTrigger>
+            <TabsTrigger value="analytics" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 " >Analytics</TabsTrigger>
+            <TabsTrigger value="settings" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Settings</TabsTrigger>
           </TabsList>
           </div>
 
@@ -170,27 +182,27 @@ export default function Page() {
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">New dataset uploaded</p>
-                      <p className="text-xs text-muted-foreground">Lagos University Hospital</p>
+                      <p className="text-xs text-gray-500">Lagos University Hospital</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">2m ago</span>
+                    <span className="text-xs text-gray-500">2m ago</span>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Annotation completed</p>
-                      <p className="text-xs text-muted-foreground">Chest X-ray series</p>
+                      <p className="text-xs text-gray-500">Chest X-ray series</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">15m ago</span>
+                    <span className="text-xs text-gray-500">15m ago</span>
                   </div>
 
                   <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Research access approved</p>
-                      <p className="text-xs text-muted-foreground">University of Ibadan</p>
+                      <p className="text-xs text-gray-500">University of Ibadan</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">1h ago</span>
+                    <span className="text-xs text-gray-500">1h ago</span>
                   </div>
                 </CardContent>
               </Card>
@@ -212,9 +224,9 @@ export default function Page() {
           <TabsContent value="settings">
             <Card>
               <CardContent className="pt-6 text-center">
-                <Settings className="h-16 w-16 mx-auto text-primary mb-4" />
+                <Settings className="h-16 w-16 mx-auto text-green-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">System Settings</h3>
-                <p className="text-muted-foreground">Configure platform settings and preferences</p>
+                <p className="text-gray-500">Configure platform settings and preferences</p>
               </CardContent>
             </Card>
           </TabsContent>

@@ -166,18 +166,19 @@ const Journal: React.FC = () => {
                       placeholder="Search articles, authors, keywords..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
+                      className=" border-gray-200 focus:ring-2 focus:ring-emerald-500"
                     />
                   </div>
                   <Select value={filterType} onValueChange={setFilterType}>
                     <SelectTrigger className="w-48">
                       <SelectValue placeholder="Article Type" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Types</SelectItem>
-                      <SelectItem value="Dataset Article">Dataset Article</SelectItem>
-                      <SelectItem value="Technical Note">Technical Note</SelectItem>
-                      <SelectItem value="Model Evaluation">Model Evaluation</SelectItem>
-                      <SelectItem value="Review">Review</SelectItem>
+                    <SelectContent className='bg-white border-gray-200'>
+                      <SelectItem value="all" className="hover:bg-gray-200">All Types</SelectItem>
+                      <SelectItem value="Dataset Article" className="hover:bg-gray-200">Dataset Article</SelectItem>
+                      <SelectItem value="Technical Note" className="hover:bg-gray-200">Technical Note</SelectItem>
+                      <SelectItem value="Model Evaluation" className="hover:bg-gray-200">Model Evaluation</SelectItem>
+                      <SelectItem value="Review" className="hover:bg-gray-200">Review</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -191,36 +192,36 @@ const Journal: React.FC = () => {
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <CardTitle className="text-lg mb-2 cursor-pointer hover:text-primary"
+                        <CardTitle className="text-lg mb-2 cursor-pointer hover:text-green-500 "
                                   onClick={() => setSelectedArticle(article)}>
                           {article.title}
                         </CardTitle>
-                        <div className="text-sm text-muted-foreground space-y-1">
+                        <div className="text-sm text-gray-500 space-y-1">
                           <p><strong>Authors:</strong> {article.authors.join(", ")}</p>
                           <p><strong>Institution:</strong> {article.institution}</p>
                           {article.doi && <p><strong>DOI:</strong> {article.doi}</p>}
                         </div>
                       </div>
                       <div className="text-right space-y-2">
-                        <Badge variant={article.status === "Published" ? "default" : "secondary"}>
+                        <Badge className={article.status === "Published" ? "bg-green-500 text-white" : "bg-blue-500 text-white"}>
                           {article.status}
                         </Badge>
-                        <Badge variant="outline">{article.type}</Badge>
+                        <Badge className="border-gray-200 ">{article.type}</Badge>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    <p className="text-sm text-gray-500 mb-4 line-clamp-3">
                       {article.abstract}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {article.keywords.map((keyword, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
+                        <Badge key={index} className="border-gray-200 text-xs">
                           {keyword}
                         </Badge>
                       ))}
                     </div>
-                    <div className="flex justify-between items-center text-xs text-muted-foreground">
+                    <div className="flex justify-between items-center text-xs text-gray-500">
                       <div className="flex space-x-4">
                         <span className="flex items-center">
                           <Eye className="w-3 h-3 mr-1" />
@@ -255,44 +256,44 @@ const Journal: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Card className="p-6 border-2 border-dashed hover:border-primary cursor-pointer transition-colors">
+                  <Card className="p-6 border-2 border-dashed hover:border-green-500 cursor-pointer transition-colors">
                     <div className="text-center">
-                      <FileText className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <FileText className="w-12 h-12 mx-auto mb-4 text-green-500" />
                       <h3 className="font-semibold mb-2">Dataset Article</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-gray-500 mb-4">
                         Describe and publish annotated imaging datasets
                       </p>
                       <Button>Start Submission</Button>
                     </div>
                   </Card>
                   
-                  <Card className="p-6 border-2 border-dashed hover:border-primary cursor-pointer transition-colors">
+                  <Card className="p-6 border-2 border-dashed hover:border-green-500 cursor-pointer transition-colors">
                     <div className="text-center">
-                      <BookOpen className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <BookOpen className="w-12 h-12 mx-auto mb-4 text-green-500" />
                       <h3 className="font-semibold mb-2">Technical Note</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-gray-500 mb-4">
                         Share technical methods and tools
                       </p>
                       <Button>Start Submission</Button>
                     </div>
                   </Card>
                   
-                  <Card className="p-6 border-2 border-dashed hover:border-primary cursor-pointer transition-colors">
+                  <Card className="p-6 border-2 border-dashed hover:border-green-500 cursor-pointer transition-colors">
                     <div className="text-center">
-                      <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <Users className="w-12 h-12 mx-auto mb-4 text-green-500" />
                       <h3 className="font-semibold mb-2">Model Evaluation</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-gray-500 mb-4">
                         Validate AI models on African populations
                       </p>
                       <Button>Start Submission</Button>
                     </div>
                   </Card>
                   
-                  <Card className="p-6 border-2 border-dashed hover:border-primary cursor-pointer transition-colors">
+                  <Card className="p-6 border-2 border-dashed hover:border-green-500 cursor-pointer transition-colors">
                     <div className="text-center">
-                      <Search className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <Search className="w-12 h-12 mx-auto mb-4 text-green-500" />
                       <h3 className="font-semibold mb-2">Review Article</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-gray-500 mb-4">
                         Comprehensive reviews and meta-analyses
                       </p>
                       <Button>Start Submission</Button>
@@ -333,8 +334,8 @@ const Journal: React.FC = () => {
                     <Card>
                       <CardContent className="pt-6">
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-primary">3</div>
-                          <div className="text-sm text-muted-foreground">Pending Reviews</div>
+                          <div className="text-2xl font-bold text-green-500">3</div>
+                          <div className="text-sm text-gray-500">Pending Reviews</div>
                         </div>
                       </CardContent>
                     </Card>
@@ -342,7 +343,7 @@ const Journal: React.FC = () => {
                       <CardContent className="pt-6">
                         <div className="text-center">
                           <div className="text-2xl font-bold text-green-600">12</div>
-                          <div className="text-sm text-muted-foreground">Completed Reviews</div>
+                          <div className="text-sm text-gray-500">Completed Reviews</div>
                         </div>
                       </CardContent>
                     </Card>
@@ -350,7 +351,7 @@ const Journal: React.FC = () => {
                       <CardContent className="pt-6">
                         <div className="text-center">
                           <div className="text-2xl font-bold text-blue-600">8.4</div>
-                          <div className="text-sm text-muted-foreground">Avg Review Time (days)</div>
+                          <div className="text-sm text-gray-500">Avg Review Time (days)</div>
                         </div>
                       </CardContent>
                     </Card>
@@ -364,13 +365,13 @@ const Journal: React.FC = () => {
                           <div className="flex justify-between items-start">
                             <div>
                               <h4 className="font-medium mb-2">{article.title}</h4>
-                              <p className="text-sm text-muted-foreground mb-2">
+                              <p className="text-sm text-gray-500 pb-2">
                                 Submitted: {article.submissionDate}
                               </p>
-                              <Badge variant="outline">{article.type}</Badge>
+                              <Badge className="border-gray-200">{article.type}</Badge>
                             </div>
                             <div className="text-right space-y-2">
-                              <Badge variant="secondary">Due: Mar 15</Badge>
+                              <Badge className="bg-blue-500 text-white">Due: Mar 15</Badge>
                               <div>
                                 <Button size="sm">Start Review</Button>
                               </div>
@@ -399,7 +400,7 @@ const Journal: React.FC = () => {
                     <CardContent className="pt-6">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-blue-600">8</div>
-                        <div className="text-sm text-muted-foreground">New Submissions</div>
+                        <div className="text-sm text-gray-500">New Submissions</div>
                       </div>
                     </CardContent>
                   </Card>
@@ -407,7 +408,7 @@ const Journal: React.FC = () => {
                     <CardContent className="pt-6">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-yellow-600">15</div>
-                        <div className="text-sm text-muted-foreground">Under Review</div>
+                        <div className="text-sm text-gray-500">Under Review</div>
                       </div>
                     </CardContent>
                   </Card>
@@ -415,15 +416,15 @@ const Journal: React.FC = () => {
                     <CardContent className="pt-6">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-green-600">45</div>
-                        <div className="text-sm text-muted-foreground">Published</div>
+                        <div className="text-sm text-gray-500">Published</div>
                       </div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">67%</div>
-                        <div className="text-sm text-muted-foreground">Acceptance Rate</div>
+                        <div className="text-2xl font-bold text-green-500">67%</div>
+                        <div className="text-sm text-gray-500">Acceptance Rate</div>
                       </div>
                     </CardContent>
                   </Card>
@@ -432,17 +433,17 @@ const Journal: React.FC = () => {
                 <div className="space-y-4">
                   <h3 className="font-semibold">Recent Editorial Actions</h3>
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
+                    <div className="flex justify-between items-center p-3 bg-gray-200 rounded">
                       <span className="text-sm">Assigned reviewers for &quot;AI-Assisted Breast Cancer Detection&quot;</span>
-                      <span className="text-xs text-muted-foreground">2 hours ago</span>
+                      <span className="text-xs text-gray-500">2 hours ago</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
+                    <div className="flex justify-between items-center p-3 bg-gray-200 rounded">
                       <span className="text-sm">Accepted &quot;MONAI-Based Liver Segmentation&quot; for publication</span>
-                      <span className="text-xs text-muted-foreground">1 day ago</span>
+                      <span className="text-xs text-gray-500">1 day ago</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
+                    <div className="flex justify-between items-center p-3 bg-gray-200 rounded">
                       <span className="text-sm">Requested revisions for &quot;Cervical Cancer Screening&quot; study</span>
-                      <span className="text-xs text-muted-foreground">3 days ago</span>
+                      <span className="text-xs text-gray-500">3 days ago</span>
                     </div>
                   </div>
                 </div>
@@ -499,12 +500,12 @@ const Journal: React.FC = () => {
                     {mockReviewers.map((reviewer) => (
                       <Card key={reviewer.id}>
                         <CardContent className="pt-6 text-center">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center">
-                            <Users className="w-8 h-8 text-primary" />
+                          <div className="w-16 h-16 bg-green-500/10 rounded-full mx-auto mb-3 flex items-center justify-center">
+                            <Users className="w-8 h-8 text-green-500" />
                           </div>
                           <h4 className="font-medium">{reviewer.name}</h4>
-                          <p className="text-sm text-muted-foreground">{reviewer.specialty}</p>
-                          <p className="text-xs text-muted-foreground">{reviewer.institution}</p>
+                          <p className="text-sm text-gray-500">{reviewer.specialty}</p>
+                          <p className="text-xs text-gray-500">{reviewer.institution}</p>
                         </CardContent>
                       </Card>
                     ))}

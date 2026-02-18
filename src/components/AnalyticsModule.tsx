@@ -77,14 +77,14 @@ export const AnalyticsModule = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
-          <p className="text-muted-foreground">Comprehensive analytics and reporting tools</p>
+          <p className="text-gray-500 text-white">Comprehensive analytics and reporting tools</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
+        <div className="flex items-center space-x-3 ">
+          <Select value={selectedPeriod} onValueChange={setSelectedPeriod} >
             <SelectTrigger className="w-[140px]">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border-gray-200">
               <SelectItem value="1month">Last Month</SelectItem>
               <SelectItem value="3months">Last 3 Months</SelectItem>
               <SelectItem value="6months">Last 6 Months</SelectItem>
@@ -99,12 +99,22 @@ export const AnalyticsModule = () => {
       </div>
 
       <Tabs value={selectedMetric} onValueChange={setSelectedMetric} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="datasets">Datasets</TabsTrigger>
-          <TabsTrigger value="institutions">Institutions</TabsTrigger>
-          <TabsTrigger value="research">Research</TabsTrigger>
-          <TabsTrigger value="compliance">Compliance</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-5 h-12 bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger value="overview" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">Overview</TabsTrigger>
+          <TabsTrigger value="datasets" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">Datasets</TabsTrigger>
+          <TabsTrigger value="institutions" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">Institutions</TabsTrigger>
+          <TabsTrigger value="research" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">Research</TabsTrigger>
+          <TabsTrigger value="compliance" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">Compliance</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
@@ -113,7 +123,7 @@ export const AnalyticsModule = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Images</CardTitle>
-                <Database className="h-4 w-4 text-muted-foreground" />
+                <Database className="h-4 w-4 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{analyticsData.overview.totalImages.toLocaleString()}</div>
@@ -127,7 +137,7 @@ export const AnalyticsModule = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
+                <Users className="h-4 w-4 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{analyticsData.overview.totalUsers}</div>
@@ -141,7 +151,7 @@ export const AnalyticsModule = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Annotations</CardTitle>
-                <Brain className="h-4 w-4 text-muted-foreground" />
+                <Brain className="h-4 w-4 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{analyticsData.overview.totalAnnotations.toLocaleString()}</div>
@@ -155,7 +165,7 @@ export const AnalyticsModule = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Research Requests</CardTitle>
-                <FileText className="h-4 w-4 text-muted-foreground" />
+                <FileText className="h-4 w-4 text-gray-500" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{analyticsData.overview.datasetRequests}</div>
@@ -179,25 +189,25 @@ export const AnalyticsModule = () => {
                   <div key={month.month} className="flex-1 flex flex-col items-center space-y-2">
                     <div className="w-full bg-muted rounded-t">
                       <div 
-                        className="bg-primary rounded-t transition-all duration-300"
+                        className="bg-green-500 rounded-t transition-all duration-300"
                         style={{ height: `${(month.uploads / 2500) * 100}px` }}
                       />
                     </div>
-                    <span className="text-xs text-muted-foreground">{month.month}</span>
+                    <span className="text-xs text-gray-500">{month.month}</span>
                   </div>
                 ))}
               </div>
               <div className="mt-4 flex justify-center space-x-6 text-xs">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-primary rounded"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded"></div>
                   <span>Uploads</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-secondary rounded"></div>
+                  <div className="w-3 h-3 bg-blue-500 rounded"></div>
                   <span>Annotations</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-accent rounded"></div>
+                  <div className="w-3 h-3 bg-gray-300 rounded"></div>
                   <span>Downloads</span>
                 </div>
               </div>
@@ -217,10 +227,10 @@ export const AnalyticsModule = () => {
                   <div key={dataset.type} className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">{dataset.type}</span>
-                      <Badge variant="outline">{dataset.count.toLocaleString()} images</Badge>
+                      <Badge variant="outline" className="border-gray-200">{dataset.count.toLocaleString()} images</Badge>
                     </div>
                     <Progress value={dataset.completion} className="h-2" />
-                    <div className="flex justify-between text-xs text-muted-foreground">
+                    <div className="flex justify-between text-xs text-gray-500">
                       <span>{dataset.annotations.toLocaleString()} annotated</span>
                       <span>{dataset.completion}% complete</span>
                     </div>
@@ -235,34 +245,34 @@ export const AnalyticsModule = () => {
                 <CardDescription>Dataset quality and validation status</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500" />
                     <div>
                       <p className="font-medium">High Quality</p>
-                      <p className="text-xs text-muted-foreground">Expert validated</p>
+                      <p className="text-xs text-gray-500">Expert validated</p>
                     </div>
                   </div>
                   <span className="text-lg font-bold">78%</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <Clock className="h-5 w-5 text-yellow-500" />
                     <div>
                       <p className="font-medium">Under Review</p>
-                      <p className="text-xs text-muted-foreground">Pending validation</p>
+                      <p className="text-xs text-gray-500">Pending validation</p>
                     </div>
                   </div>
                   <span className="text-lg font-bold">18%</span>
                 </div>
                 
-                <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <AlertTriangle className="h-5 w-5 text-red-500" />
                     <div>
                       <p className="font-medium">Needs Attention</p>
-                      <p className="text-xs text-muted-foreground">Quality issues</p>
+                      <p className="text-xs text-gray-500">Quality issues</p>
                     </div>
                   </div>
                   <span className="text-lg font-bold">4%</span>
@@ -281,21 +291,21 @@ export const AnalyticsModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {analyticsData.institutions.map((institution, index) => (
-                  <div key={institution.name} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={institution.name} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                        <MapPin className="h-5 w-5 text-primary" />
+                      <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
+                        <MapPin className="h-5 w-5 text-green-500" />
                       </div>
                       <div>
                         <p className="font-medium">{institution.name}</p>
-                        <p className="text-sm text-muted-foreground">{institution.users} active users</p>
+                        <p className="text-sm text-gray-500">{institution.users} active users</p>
                       </div>
                     </div>
                     <div className="text-right space-y-1">
                       <p className="font-bold">{institution.images.toLocaleString()}</p>
                       <Badge 
-                        variant={institution.compliance === 100 ? "default" : "secondary"}
-                        className="text-xs"
+                        className={institution.compliance === 100 ? "bg-green-500 text-white" : "bg-blue-500 text-white text-xs"}
+                       
                       >
                         {institution.compliance}% compliant
                       </Badge>
@@ -316,19 +326,19 @@ export const AnalyticsModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {analyticsData.research.map((project, index) => (
-                  <div key={project.project} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={project.project} className="flex items-center justify-between p-4 border border-gray-200  rounded-lg">
                     <div className="space-y-1">
                       <p className="font-medium">{project.project}</p>
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                      <div className="flex items-center space-x-4 text-sm text-gray-500">
                         <span>{project.datasets} datasets used</span>
                         <span>{project.publications} publications</span>
                       </div>
                     </div>
                     <Badge 
-                      variant={
-                        project.status === "Active" ? "default" : 
-                        project.status === "Completed" ? "secondary" : 
-                        "outline"
+                      className={
+                        project.status === "Active" ? "bg-green-500 text-white" : 
+                        project.status === "Completed" ? "bg-blue-500 text-white" : 
+                        "bg-white border-gray-200" 
                       }
                     >
                       {project.status}
@@ -350,19 +360,19 @@ export const AnalyticsModule = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span>Data De-identification</span>
-                  <Badge className="bg-green-500">100%</Badge>
+                  <Badge className="bg-green-500 text-white">100%</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Consent Documentation</span>
-                  <Badge className="bg-green-500">100%</Badge>
+                  <Badge className="bg-green-500 text-white">100%</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Access Controls</span>
-                  <Badge className="bg-green-500">100%</Badge>
+                  <Badge className="bg-green-500 text-white">100%</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Audit Trail</span>
-                  <Badge className="bg-green-500">100%</Badge>
+                  <Badge className="bg-green-500 text-white">100%</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -375,19 +385,19 @@ export const AnalyticsModule = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span>Failed Login Attempts</span>
-                  <Badge variant="outline">0 today</Badge>
+                  <Badge variant="outline" className="border-gray-200">0 today</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Active 2FA Users</span>
-                  <Badge className="bg-green-500">89/89</Badge>
+                  <Badge className="bg-green-500 text-white">89/89</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Data Encryption</span>
-                  <Badge className="bg-green-500">AES-256</Badge>
+                  <Badge className="bg-green-500 text-white">AES-256</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Last Security Audit</span>
-                  <Badge variant="outline">7 days ago</Badge>
+                  <Badge variant="outline" className="border-gray-200" >7 days ago</Badge>
                 </div>
               </CardContent>
             </Card>

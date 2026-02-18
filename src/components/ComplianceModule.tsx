@@ -111,7 +111,7 @@ export const ComplianceModule = () => {
       case "compliant": return "text-green-600";
       case "attention": return "text-yellow-600";
       case "violation": return "text-red-600";
-      default: return "text-gray-600";
+      default: return "text-gray-6000";
     }
   };
 
@@ -184,7 +184,7 @@ export const ComplianceModule = () => {
       </div>
 
       {/* Recent Alerts */}
-      <Alert>
+      <Alert className="border-gray-200">
         <Bell className="h-4 w-4" />
         <AlertDescription>
           SOC 2 Type II certification expires in 8 months. Schedule renewal assessment with KPMG.
@@ -192,12 +192,25 @@ export const ComplianceModule = () => {
       </Alert>
 
       <Tabs defaultValue="frameworks" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="frameworks">Frameworks</TabsTrigger>
-          <TabsTrigger value="audits">Audits</TabsTrigger>
-          <TabsTrigger value="violations">Violations</TabsTrigger>
-          <TabsTrigger value="certifications">Certifications</TabsTrigger>
-        </TabsList>
+      <div className="bg-gray-100 rounded-lg ">
+        <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg ">
+          <TabsTrigger className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               "  value="frameworks" >Frameworks</TabsTrigger>
+          <TabsTrigger className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               "  value="audits">Audits</TabsTrigger>
+          <TabsTrigger className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               "  value="violations">Violations</TabsTrigger>
+          <TabsTrigger className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+               "  value="certifications">Certifications</TabsTrigger>
+        </TabsList></div>
 
         <TabsContent value="frameworks">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -240,7 +253,7 @@ export const ComplianceModule = () => {
                     {selectedFramework === "ndpr" && "NDPR Compliance Details"}
                     {selectedFramework === "hipaa" && "HIPAA Compliance Details"}
                     {selectedFramework === "gdpr" && "GDPR Compliance Details"}
-                    <Badge className="bg-green-500">
+                    <Badge className="bg-green-500 text-white">
                       {selectedFramework === "ndpr" && `${complianceData.ndprCompliance.overall}%`}
                       {selectedFramework === "hipaa" && `${complianceData.hipaaCompliance.overall}%`}
                       {selectedFramework === "gdpr" && `${complianceData.gdprCompliance.overall}%`}
@@ -253,40 +266,40 @@ export const ComplianceModule = () => {
                 <CardContent>
                   <div className="space-y-4">
                     {selectedFramework === "ndpr" && complianceData.ndprCompliance.categories.map((category) => (
-                      <div key={category.name} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div key={category.name} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <CheckCircle className={`h-5 w-5 ${getStatusColor(category.status)}`} />
                           <span className="font-medium">{category.name}</span>
                         </div>
                         <div className="flex items-center space-x-3">
                           <span className={`font-bold ${getStatusColor(category.status)}`}>{category.score}%</span>
-                          {getStatusBadge(category.status)}
+                          <span className="text-white">{getStatusBadge(category.status)}</span>
                         </div>
                       </div>
                     ))}
                     
                     {selectedFramework === "hipaa" && complianceData.hipaaCompliance.categories.map((category) => (
-                      <div key={category.name} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div key={category.name} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <CheckCircle className={`h-5 w-5 ${getStatusColor(category.status)}`} />
                           <span className="font-medium">{category.name}</span>
                         </div>
                         <div className="flex items-center space-x-3">
                           <span className={`font-bold ${getStatusColor(category.status)}`}>{category.score}%</span>
-                          {getStatusBadge(category.status)}
+                          <span className="text-white">{getStatusBadge(category.status)}</span>
                         </div>
                       </div>
                     ))}
                     
                     {selectedFramework === "gdpr" && complianceData.gdprCompliance.categories.map((category) => (
-                      <div key={category.name} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div key={category.name} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div className="flex items-center space-x-3">
                           <CheckCircle className={`h-5 w-5 ${getStatusColor(category.status)}`} />
                           <span className="font-medium">{category.name}</span>
                         </div>
                         <div className="flex items-center space-x-3">
                           <span className={`font-bold ${getStatusColor(category.status)}`}>{category.score}%</span>
-                          {getStatusBadge(category.status)}
+                          <span className="text-white">{getStatusBadge(category.status)}</span>
                         </div>
                       </div>
                     ))}
@@ -306,7 +319,7 @@ export const ComplianceModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {complianceData.recentAudits.map((audit) => (
-                  <div key={audit.id} className="border rounded-lg p-4">
+                  <div key={audit.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-3">
@@ -314,7 +327,7 @@ export const ComplianceModule = () => {
                           <Badge variant={audit.status === "passed" ? "default" : "destructive"}>
                             {audit.status}
                           </Badge>
-                          <Badge variant="outline">Score: {audit.score}%</Badge>
+                         <Badge variant="outline" className="border-gray-200">Score: {audit.score}%</Badge> 
                         </div>
                         <p className="text-sm text-gray-500">Auditor: {audit.auditor}</p>
                         <div className="flex items-center space-x-4 text-xs text-gray-500">
@@ -351,7 +364,7 @@ export const ComplianceModule = () => {
                   </div>
                 ) : (
                   complianceData.violations.map((violation) => (
-                    <div key={violation.id} className="border rounded-lg p-4">
+                    <div key={violation.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-3">
@@ -394,12 +407,12 @@ export const ComplianceModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {complianceData.certifications.map((cert) => (
-                  <div key={cert.name} className="border rounded-lg p-4">
+                  <div key={cert.name} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-3">
                           <h3 className="font-semibold">{cert.name}</h3>
-                          <Badge className="bg-green-500">{cert.status}</Badge>
+                          <Badge className="bg-green-500 text-white">{cert.status}</Badge>
                         </div>
                         <p className="text-sm text-gray-500">Certifying Body: {cert.certifyingBody}</p>
                         <div className="flex items-center space-x-4 text-xs text-gray-500">
