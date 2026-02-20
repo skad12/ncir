@@ -122,13 +122,14 @@ export const EthicsOfficerModule = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold">Ethics & Compliance Dashboard</h2>
-          <p className="text-muted-foreground">Monitor ethical compliance and audit platform activities</p>
+          <p className="text-gray-500">Monitor ethical compliance and audit platform activities</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" size="sm">
@@ -147,54 +148,66 @@ export const EthicsOfficerModule = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">{ethicsData.pendingApprovals.length}</div>
-            <p className="text-xs text-muted-foreground">Awaiting approval</p>
+            <p className="text-xs text-gray-500">Awaiting approval</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Compliance Rate</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Shield className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">96%</div>
-            <p className="text-xs text-muted-foreground">This month</p>
+            <p className="text-xs text-gray-500">This month</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Violations</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+            <AlertTriangle className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">1</div>
-            <p className="text-xs text-muted-foreground">Requires action</p>
+            <p className="text-xs text-gray-500">Requires action</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Audit Events</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Activity className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">247</div>
-            <p className="text-xs text-muted-foreground">Last 30 days</p>
+            <p className="text-xs text-gray-500">Last 30 days</p>
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="pending" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="pending">Pending Reviews</TabsTrigger>
-          <TabsTrigger value="audit">Audit Trail</TabsTrigger>
-          <TabsTrigger value="violations">Violations</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger value="pending" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Pending Reviews</TabsTrigger>
+          <TabsTrigger value="audit" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Audit Trail</TabsTrigger>
+          <TabsTrigger value="violations" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Violations</TabsTrigger>
+          <TabsTrigger value="reports" className="px-4 py-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm
+                 ">Reports</TabsTrigger>
         </TabsList>
 
         <TabsContent value="pending">
@@ -206,18 +219,18 @@ export const EthicsOfficerModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {ethicsData.pendingApprovals.map((approval) => (
-                  <div key={approval.id} className="border rounded-lg p-4">
+                  <div key={approval.id} className="border border-gray-200  rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-3">
                           <h3 className="font-semibold">{approval.title}</h3>
-                          <Badge variant={approval.urgency === "high" ? "destructive" : "outline"}>
+                          <Badge className={approval.urgency === "high" ? "bg-red-500 text-white" : "bg-white border-gray-200"}>
                             {approval.urgency} priority
                           </Badge>
-                          <Badge variant="secondary">{approval.type}</Badge>
+                          <Badge className="bg-blue-500 text-white">{approval.type}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">{approval.institution}</p>
-                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                        <p className="text-sm text-gray-500">{approval.institution}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
                           <span>Submitted by: {approval.submittedBy}</span>
                           <span>Date: {approval.submittedDate}</span>
                           <span>ID: {approval.id}</span>
@@ -296,17 +309,17 @@ export const EthicsOfficerModule = () => {
                     placeholder="Search activities..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-64"
+                    className="w-64 border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                   <Select value={selectedFilter} onValueChange={setSelectedFilter}>
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Events</SelectItem>
-                      <SelectItem value="access">Data Access</SelectItem>
-                      <SelectItem value="upload">Uploads</SelectItem>
-                      <SelectItem value="consent">Consent</SelectItem>
+                    <SelectContent className="bg-white border-gray-200 ">
+                      <SelectItem value="all" className="hover:bg-gray-200">All Events</SelectItem>
+                      <SelectItem value="access" className="hover:bg-gray-200">Data Access</SelectItem>
+                      <SelectItem value="upload" className="hover:bg-gray-200">Uploads</SelectItem>
+                      <SelectItem value="consent" className="hover:bg-gray-200">Consent</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -315,7 +328,7 @@ export const EthicsOfficerModule = () => {
             <CardContent>
               <div className="space-y-3">
                 {ethicsData.auditTrail.map((event) => (
-                  <div key={event.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div key={event.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                     <div className="flex items-center space-x-4">
                       <div className={`w-2 h-2 rounded-full ${
                         event.compliance === "approved" ? "bg-green-500" : 
@@ -323,16 +336,16 @@ export const EthicsOfficerModule = () => {
                       }`} />
                       <div>
                         <p className="font-medium">{event.action}</p>
-                        <p className="text-sm text-muted-foreground">{event.user}</p>
-                        <p className="text-xs text-muted-foreground">{event.details}</p>
+                        <p className="text-sm text-gray-500">{event.user}</p>
+                        <p className="text-xs text-gray-500">{event.details}</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium">{event.dataset}</p>
-                      <p className="text-xs text-muted-foreground">{event.timestamp}</p>
+                      <p className="text-xs text-gray-500">{event.timestamp}</p>
                       <Badge 
-                        variant={event.compliance === "approved" ? "default" : "secondary"}
-                        className="text-xs"
+                        className={event.compliance === "approved" ? "bg-green-500 text-white" : "bg-blue-500 text-white"}
+                       
                       >
                         {event.compliance}
                       </Badge>
@@ -353,24 +366,24 @@ export const EthicsOfficerModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {ethicsData.violations.map((violation) => (
-                  <div key={violation.id} className="border rounded-lg p-4">
+                  <div key={violation.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-3">
                           <h3 className="font-semibold">{violation.type}</h3>
-                          <Badge variant={
-                            violation.severity === "high" ? "destructive" : 
-                            violation.severity === "medium" ? "default" : "secondary"
+                          <Badge className={
+                            violation.severity === "high" ? "bg-red-500 text-white" : 
+                            violation.severity === "medium" ? "bg-green-500 text-white" : "bg-blue-500 text-white"
                           }>
                             {violation.severity} severity
                           </Badge>
-                          <Badge variant={violation.status === "resolved" ? "secondary" : "destructive"}>
+                          <Badge className={violation.status === "resolved" ? "bg-blue-500 text-white" : "bg-red-500 text-white"}>
                             {violation.status}
                           </Badge>
                         </div>
                         <p className="text-sm">{violation.description}</p>
-                        <p className="text-sm text-muted-foreground">{violation.institution}</p>
-                        <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                        <p className="text-sm text-gray-500">{violation.institution}</p>
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
                           <span>Reported: {violation.dateReported}</span>
                           {violation.dateResolved && <span>Resolved: {violation.dateResolved}</span>}
                           <span>ID: {violation.id}</span>
@@ -404,27 +417,27 @@ export const EthicsOfficerModule = () => {
             <CardContent>
               <div className="space-y-6">
                 {ethicsData.complianceReports.map((report, index) => (
-                  <div key={report.month} className="border rounded-lg p-4">
+                  <div key={report.month} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-semibold">{report.month}</h3>
-                      <Badge className="bg-green-500">{report.status}</Badge>
+                      <Badge className="bg-green-500 text-white">{report.status}</Badge>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="text-center">
                         <p className="text-2xl font-bold">{report.totalSubmissions}</p>
-                        <p className="text-xs text-muted-foreground">Total Submissions</p>
+                        <p className="text-xs text-gray-500">Total Submissions</p>
                       </div>
                       <div className="text-center">
                         <p className="text-2xl font-bold text-green-600">{report.compliantSubmissions}</p>
-                        <p className="text-xs text-muted-foreground">Compliant</p>
+                        <p className="text-xs text-gray-500">Compliant</p>
                       </div>
                       <div className="text-center">
                         <p className="text-2xl font-bold text-red-600">{report.violations}</p>
-                        <p className="text-xs text-muted-foreground">Violations</p>
+                        <p className="text-xs text-gray-500">Violations</p>
                       </div>
                       <div className="text-center">
                         <p className="text-2xl font-bold">{report.avgReviewTime}</p>
-                        <p className="text-xs text-muted-foreground">Avg Review Time</p>
+                        <p className="text-xs text-gray-500">Avg Review Time</p>
                       </div>
                     </div>
                   </div>

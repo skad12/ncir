@@ -254,6 +254,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   <Input 
                     id="pacs-server" 
                     placeholder="e.g., pacs.hospital.com"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -262,6 +263,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   <Input 
                     id="pacs-port" 
                     placeholder="e.g., 11112"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -270,6 +272,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   <Input 
                     id="ae-title" 
                     placeholder="e.g., NCIR_CLIENT"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -278,6 +281,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   <Input 
                     id="called-ae" 
                     placeholder="e.g., HOSPITAL_PACS"
+                    className="border-gray-200 focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -290,7 +294,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                       <span className="font-medium">PACS Connection Status</span>
                     </div>
-                    <Badge variant="secondary">Connected</Badge>
+                    <Badge className="bg-blue-500 text-white">Connected</Badge>
                   </div>
                   <p className="text-sm text-gray-500 mt-2">
                     Last successful connection: 2 minutes ago
@@ -308,11 +312,11 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                       <SelectTrigger>
                         <SelectValue placeholder="Select date range" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="today">Today</SelectItem>
-                        <SelectItem value="week">Past Week</SelectItem>
-                        <SelectItem value="month">Past Month</SelectItem>
-                        <SelectItem value="custom">Custom Range</SelectItem>
+                      <SelectContent className="border-gray-200 bg-white">
+                        <SelectItem value="today" className="hover:bg-gray-200">Today</SelectItem>
+                        <SelectItem value="week" className="hover:bg-gray-200">Past Week</SelectItem>
+                        <SelectItem value="month" className="hover:bg-gray-200">Past Month</SelectItem>
+                        <SelectItem value="custom" className="hover:bg-gray-200">Custom Range</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -323,11 +327,11 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                       <SelectTrigger>
                         <SelectValue placeholder="Select study type" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ct">CT Studies</SelectItem>
-                        <SelectItem value="mri">MRI Studies</SelectItem>
-                        <SelectItem value="mammography">Mammography</SelectItem>
-                        <SelectItem value="all">All Cancer Studies</SelectItem>
+                      <SelectContent className="border-gray-200 bg-white">
+                        <SelectItem value="ct" className="hover:bg-gray-200">CT Studies</SelectItem>
+                        <SelectItem value="mri" className="hover:bg-gray-200">MRI Studies</SelectItem>
+                        <SelectItem value="mammography" className="hover:bg-gray-200">Mammography</SelectItem>
+                        <SelectItem value="all" className="hover:bg-gray-200">All Cancer Studies</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -346,7 +350,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                       { id: "MRI-2024-002", patient: "ANON-002", date: "2024-01-15", modality: "MRI", studies: 2 },
                       { id: "CT-2024-003", patient: "ANON-003", date: "2024-01-14", modality: "CT", studies: 4 },
                     ].map((study) => (
-                      <div key={study.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div key={study.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div className="flex items-center space-x-4">
                           <input type="checkbox" className="rounded" />
                           <div>
@@ -356,7 +360,7 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                             </p>
                           </div>
                         </div>
-                        <Badge variant="outline">{study.modality}</Badge>
+                        <Badge className="border-gray-200">{study.modality}</Badge>
                       </div>
                     ))}
                   </div>
@@ -430,10 +434,10 @@ export const ContributorModule = ({ userRole }: ContributorModuleProps) => {
                   </div>
                 </div>
                 <Badge 
-                  className={
-                    upload.status === "Completed" ? "bg-green-500 text-white" :
-                    upload.status === "Processing" ? "bg-blue-500 text-white" : "bg-orange-500 text-white"
-                  }
+                  className={`${
+                    upload.status === "Completed" ? "bg-green-500 " :
+                    upload.status === "Processing" ? "bg-blue-500 " : "bg-orange-500"
+                  } text-white`}
                 >
                   {upload.status}
                 </Badge>

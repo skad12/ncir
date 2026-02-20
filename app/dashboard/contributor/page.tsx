@@ -91,7 +91,7 @@ export default function DashboardPage() {
               <Shield className="h-8 w-8 text-green-500" />
               <div>
                 <h1 className="text-xl font-bold">Contributor</h1>
-                <Badge className="bg-blue-500 text-white">Contributor</Badge>
+                <Badge className={`${getRoleColor(userRole)} text-white`}>{getRoleDisplayName(userRole)}</Badge>
               </div>
             </div>
 

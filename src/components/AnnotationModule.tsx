@@ -82,19 +82,19 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-500';
-      case 'Medium': return 'bg-yellow-500';
-      case 'Low': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      case 'High': return 'bg-red-500 text-white';
+      case 'Medium': return 'bg-yellow-500 text-white';
+      case 'Low': return 'bg-green-500 text-white';
+      default: return 'bg-gray-500 text-white';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Completed': return 'bg-green-500';
-      case 'In Progress': return 'bg-blue-500';
-      case 'Pending': return 'bg-orange-500';
-      default: return 'bg-gray-500';
+      case 'Completed': return 'bg-green-500 text-white';
+      case 'In Progress': return 'bg-blue-500 text-white';
+      case 'Pending': return 'bg-orange-500 text-white';
+      default: return 'bg-gray-500 text-white';
     }
   };
 
@@ -102,7 +102,7 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="text-center text-muted-foreground">
+          <div className="text-center text-gray-500">
             Access restricted to Annotators only.
           </div>
         </CardContent>
@@ -114,8 +114,8 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Annotation Workspace</h2>
-          <p className="text-muted-foreground">Review and annotate cancer imaging datasets</p>
+          <h2 className="text-2xl font-bold ">Annotation Workspace</h2>
+          <p className="text-gray-500">Review and annotate cancer imaging datasets</p>
         </div>
         <Badge variant="secondary" className="px-3 py-1">
           Annotator Portal
@@ -126,53 +126,59 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <Card>
           <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-primary">{annotationStats.totalAssigned}</div>
-            <p className="text-xs text-muted-foreground">Total Assigned</p>
+            <div className="text-2xl font-bold text-green-500">{annotationStats.totalAssigned}</div>
+            <p className="text-xs text-gray-500">Total Assigned</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
             <div className="text-2xl font-bold text-green-600">{annotationStats.completed}</div>
-            <p className="text-xs text-muted-foreground">Completed</p>
+            <p className="text-xs text-gray-500">Completed</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
             <div className="text-2xl font-bold text-blue-600">{annotationStats.inProgress}</div>
-            <p className="text-xs text-muted-foreground">In Progress</p>
+            <p className="text-xs text-gray-500">In Progress</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
             <div className="text-2xl font-bold text-orange-600">{annotationStats.pending}</div>
-            <p className="text-xs text-muted-foreground">Pending</p>
+            <p className="text-xs text-gray-500">Pending</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
             <div className="text-2xl font-bold text-secondary">{annotationStats.avgCompletionTime}</div>
-            <p className="text-xs text-muted-foreground">Avg Time</p>
+            <p className="text-xs text-gray-500">Avg Time</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-primary">{annotationStats.qualityScore}%</div>
-            <p className="text-xs text-muted-foreground">Quality Score</p>
+            <div className="text-2xl font-bold text-green-500">{annotationStats.qualityScore}%</div>
+            <p className="text-xs text-gray-500">Quality Score</p>
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="queue" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="queue" className="flex items-center space-x-2">
+        <TabsList className=" bg-gray-100 p-1 rounded-lg">
+          <TabsTrigger value="queue" className="flex items-center space-x-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">
             <Clock className="h-4 w-4" />
             <span>Annotation Queue</span>
           </TabsTrigger>
-          <TabsTrigger value="viewer" className="flex items-center space-x-2">
+          <TabsTrigger value="viewer" className="flex items-center space-x-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">
             <Eye className="h-4 w-4" />
             <span>Image Viewer</span>
           </TabsTrigger>
-          <TabsTrigger value="quality" className="flex items-center space-x-2">
+          <TabsTrigger value="quality" className="flex items-center space-x-2 rounded-md text-sm font-medium 
+               data-[state=active]:bg-white data-[state=active]:text-gray-900
+               data-[state=active]:shadow-sm">
             <Award className="h-4 w-4" />
             <span>Quality Review</span>
           </TabsTrigger>
@@ -189,19 +195,19 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                 {annotationQueue.map((task) => (
                   <div 
                     key={task.id} 
-                    className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-                      selectedTask === task.id ? 'border-primary bg-primary/5' : 'hover:bg-muted/50'
+                    className={`p-4 border border-gray-200  rounded-lg cursor-pointer transition-colors ${
+                      selectedTask === task.id ? 'border-green-500 bg-green-500/5' : 'hover:bg-muted/50'
                     }`}
                     onClick={() => setSelectedTask(task.id)}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-secondary to-primary rounded-lg flex items-center justify-center">
-                          <Brain className="h-5 w-5 text-white" />
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                          <Brain className="h-4 w-4 text-white" />
                         </div>
                         <div>
                           <h4 className="font-semibold">{task.id}</h4>
-                          <p className="text-sm text-muted-foreground">{task.patientId}</p>
+                          <p className="text-sm text-gray-500">{task.patientId}</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -216,19 +222,19 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                       <div>
-                        <span className="text-muted-foreground">Study:</span>
+                        <span className="text-gray-500">Study:</span>
                         <p className="font-medium">{task.studyType}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Cancer Type:</span>
+                        <span className="text-gray-500">Cancer Type:</span>
                         <p className="font-medium">{task.cancerType}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Images:</span>
+                        <span className="text-gray-500">Images:</span>
                         <p className="font-medium">{task.images}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Deadline:</span>
+                        <span className="text-gray-500">Deadline:</span>
                         <p className="font-medium">{task.deadline}</p>
                       </div>
                     </div>
@@ -242,7 +248,7 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-muted-foreground">{task.hospital}</p>
+                      <p className="text-sm text-gray-500">{task.hospital}</p>
                       <div className="flex space-x-2">
                         <Button variant="outline" size="sm">
                           <Eye className="h-3 w-3 mr-1" />
@@ -270,10 +276,10 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
               <CardDescription>Integrated medical imaging viewer with annotation tools</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center bg-muted/20">
-                <Image className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+              <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center bg-gray-50">
+                <Image    className="h-16 w-16 mx-auto text-gray-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Medical Image Viewer</h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-gray-500 mb-4">
                   OHIF viewer will be embedded here for image viewing and annotation
                 </p>
                 <div className="flex items-center justify-center space-x-4">
@@ -299,7 +305,7 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                     <CardTitle className="text-sm">Segmentation Masks</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs text-muted-foreground mb-3">
+                    <p className="text-xs text-gray-500 mb-3">
                       Create precise tumor boundaries
                     </p>
                     <Button variant="outline" size="sm" className="w-full">
@@ -314,7 +320,7 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                     <CardTitle className="text-sm">Bounding Boxes</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs text-muted-foreground mb-3">
+                    <p className="text-xs text-gray-500 mb-3">
                       Mark regions of interest
                     </p>
                     <Button variant="outline" size="sm" className="w-full">
@@ -329,7 +335,7 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                     <CardTitle className="text-sm">Keypoint Labels</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xs text-muted-foreground mb-3">
+                    <p className="text-xs text-gray-500 mb-3">
                       Mark specific anatomical points
                     </p>
                     <Button variant="outline" size="sm" className="w-full">
@@ -356,26 +362,26 @@ export const AnnotationModule = ({ userRole }: AnnotationModuleProps) => {
                   { id: "QR-002", annotator: "Dr. Chioma", accuracy: 87, issues: 5, status: "Needs Review" },
                   { id: "QR-003", annotator: "Prof. Ibrahim", accuracy: 93, issues: 3, status: "Approved" },
                 ].map((review) => (
-                  <div key={review.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={review.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 bg-gradient-to-r from-secondary to-primary rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
                         <Award className="h-5 w-5 text-white" />
                       </div>
                       <div>
                         <p className="font-medium">{review.id}</p>
-                        <p className="text-sm text-muted-foreground">by {review.annotator}</p>
+                        <p className="text-sm text-gray-500">by {review.annotator}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-center">
-                        <div className="text-lg font-bold text-primary">{review.accuracy}%</div>
-                        <div className="text-xs text-muted-foreground">Accuracy</div>
+                        <div className="text-lg font-bold text-green-500">{review.accuracy}%</div>
+                        <div className="text-xs text-gray-500">Accuracy</div>
                       </div>
                       <div className="text-center">
                         <div className="text-lg font-bold text-orange-600">{review.issues}</div>
-                        <div className="text-xs text-muted-foreground">Issues</div>
+                        <div className="text-xs text-gray-500">Issues</div>
                       </div>
-                      <Badge className={review.status === "Approved" ? "bg-green-500" : "bg-orange-500"}>
+                      <Badge className={`${review.status === "Approved" ? "bg-green-500" : "bg-orange-500"} text-white`}>
                         {review.status}
                       </Badge>
                     </div>

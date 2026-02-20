@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/src/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import { ContributorModule } from "@/src/components/ContributorModule";
+import { useRouter } from "next/navigation";
 import { AnnotationModule } from "@/src/components/AnnotationModule";
 import { ResearcherModule } from "@/src/components/ResearcherModule";
 import { AnalyticsModule } from "@/src/components/AnalyticsModule";
@@ -35,22 +36,55 @@ import {
 import { useAuth } from "@/src/context/AuthProvider";
 // if you have a dashboard nav component, optionally import and render it here:
 
-export default function Page() {
-  // must have AuthProvider mounted in app layout
-  const { user, logout } = useAuth(); // will throw if provider missing
-  const userRole = user?.role ?? "super-admin"; // fallback while loading
-  const [activeTab, setActiveTab] = useState("overview");
+export default function DashboardPage() {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  // while auth loads
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-500">Loading dashboard…</div>
+      </div>
+    );
+  }
+
+  const userRole = user.role ?? "user";
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case "super-admin":
+        return "bg-red-500";
+      case "contributor":
+        return "bg-blue-500";
+      case "annotator":
+        return "bg-green-500";
+      case "researcher":
+        return "bg-purple-500";
+      case "ethics-officer":
+        return "bg-orange-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
 
   const getRoleDisplayName = (role: string) => {
     switch (role) {
-      case "super-admin": return "Super Admin";
-      case "contributor": return "Contributor";
-      case "annotator": return "Annotator";
-      case "researcher": return "Researcher";
-      case "ethics-officer": return "Ethics Officer";
-      default: return "User";
+      case "super-admin":
+        return "Super Admin";
+      case "contributor":
+        return "Contributor";
+      case "annotator":
+        return "Annotator";
+      case "researcher":
+        return "Researcher";
+      case "ethics-officer":
+        return "Ethics Officer";
+      default:
+        return "User";
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,8 +95,8 @@ export default function Page() {
             <div className="flex items-center space-x-4">
               <Shield className="h-8 w-8 text-green-500" />
               <div>
-                <h1 className="text-xl font-bold">NCIR — {getRoleDisplayName(userRole)}</h1>
-                <Badge className="bg-red-500 text-white">{getRoleDisplayName(userRole)}</Badge>
+                <h1 className="text-xl font-bold">NCIR Dashboard</h1>
+                <Badge className={`${getRoleColor(userRole)} text-white`}>{getRoleDisplayName(userRole)}</Badge>
               </div>
             </div>
 
@@ -81,9 +115,9 @@ export default function Page() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 ">
+        <Tabs defaultValue="overview" className="space-y-6 ">
           <div className="bg-gray-100 rounded-lg ">
-          <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg  ">
+          <TabsList className="grid w-full grid-cols-4 h-12 bg-gray-100 p-1 rounded-lg">
             <TabsTrigger value="overview" className="px-4 py-2 rounded-md text-sm font-medium 
                data-[state=active]:bg-white data-[state=active]:text-gray-900
                data-[state=active]:shadow-sm
@@ -155,23 +189,70 @@ export default function Page() {
 
             {/* Quick Actions + Activity */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Quick Actions */}
               <Card className="lg:col-span-2">
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
-                  <CardDescription>Admin quick tasks</CardDescription>
+                  <CardDescription>
+                    Common tasks for {getRoleDisplayName(userRole).toLowerCase()}s
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 gap-4">
-                  <Button variant="medical" className="h-20 flex-col text-sm">
-                    <BarChart3 className="h-4 w-4 mb-2" />
-                     Analytics
-                  </Button>
-                  <Button variant="outline" className="h-20 flex-col text-sm">
-                    <Users className="h-4 w-4 mb-2" />
-                    Manage Users
-                  </Button>
+                  {userRole === "contributor" && (
+                    <>
+                      <Button variant="medical" className="h-20 flex-col">
+                        <Upload className="h-4 w-4 mb-2" />
+                        Upload Images
+                      </Button>
+                      <Button variant="outline" className="h-20 flex-col">
+                        <FileText className="h-4 w-4 mb-2" />
+                        Submit Ethics
+                      </Button>
+                    </>
+                  )}
+
+                  {userRole === "annotator" && (
+                    <>
+                      <Button variant="medical" className="h-20 flex-col">
+                        <Brain className="h-4 w-4 mb-2" />
+                        Start Annotation
+                      </Button>
+                      <Button variant="outline" className="h-20 flex-col">
+                        <Activity className="h-4 w-4 mb-2" />
+                        Review Queue
+                      </Button>
+                    </>
+                  )}
+
+                  {userRole === "researcher" && (
+                    <>
+                      <Button variant="medical" className="h-20 flex-col">
+                        <Search className="h-4 w-4 mb-2" />
+                        Browse Datasets
+                      </Button>
+                      <Button variant="outline" className="h-20 flex-col">
+                        <FileText className="h-4 w-4 mb-2" />
+                        Request Access
+                      </Button>
+                    </>
+                  )}
+
+                  {userRole === "super-admin" && (
+                    <>
+                      <Button variant="medical" className="h-20 flex-col">
+                        <BarChart3 className="h-4 w-4 mb-2" />
+                        Analytics
+                      </Button>
+                      <Button variant="outline" className="h-20 flex-col">
+                        <Users className="h-4 w-4 mb-2" />
+                        Manage Users
+                      </Button>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
+              {/* Recent Activity */}
               <Card>
                 <CardHeader>
                   <CardTitle>Recent Activity</CardTitle>
@@ -197,7 +278,7 @@ export default function Page() {
                   </div>
 
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Research access approved</p>
                       <p className="text-xs text-gray-500">University of Ibadan</p>
