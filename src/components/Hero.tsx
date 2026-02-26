@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Shield, Database, Brain, Lock } from "lucide-react";
+import Link from "next/link";
 
 interface HeroProps {
   onGetStarted?: () => void;
@@ -48,12 +49,12 @@ export default function Hero({ onGetStarted = () => {} }: HeroProps) {
           </div>
 
           {/* Attribution */}
-          <p className="text-sm text-gray-500 mb-12">
+          <p className="text-sm mb-12">
             Developed by{" "}
-            <span className="font-semibold text-green-600">
+            <Link href='https://www.algorizmih.com/'><span className="font-semibold text-green-600 hover:text-green-400">
               Algorizmi Health Ltd
-            </span>{" "}
-            in collaboration with NICRAT
+            </span>{" "}</Link>
+            in collaboration with <Link href="https://www.nicrat.gov.ng"><span className="font-semibold text-blue-600 hover:text-blue-400">NICRAT</span></Link>
           </p>
 
           {/* Feature Grid */}
