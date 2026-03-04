@@ -1,8 +1,7 @@
-
-// src/components/LoginModal.tsx
 "use client";
 
 import { useState } from "react";
+import { Shield, User, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
@@ -12,72 +11,70 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/src/components/ui/dialog";
-import { Shield, User, Lock, Eye, EyeOff } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
 import { useAuth } from "@/src/context/AuthProvider";
-import { toast } from "sonner";
 
-export interface LoginPayload {
+export interface SignUpPayload {
+  account_type: string;
   email: string;
   password: string;
 }
 
-export interface LoginModalProps {
+export interface SignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
-  /**
-   * Optional: receives the full credential payload.
-   * If provided, this will be awaited. If not provided, the modal will
-   * fall back to calling useAuth().login(payload) if available.
-   */
-  onLogin?: (payload: LoginPayload) => void | Promise<void>;
+  onSignUp?: (payload: SignUpPayload) => void | Promise<void>;
 }
 
-export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
+export const SignUpModal = ({ isOpen, onClose, onSignUp }: SignUpModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [localLoading, setLocalLoading] = useState(false);
 
-  const auth = useAuth(); // may be undefined depending on your provider implementation
-  const loading = auth?.loading ?? localLoading;
+  const auth = useAuth();
+  const loading = auth.loading || localLoading;
 
   const handleSubmit = async () => {
     setError(null);
 
-    if (!email || !password) {
-      setError("Please enter email & password.");
+    if (!selectedRole || !email || !password) {
+      setError("Please choose a role and enter email & password.");
       return;
     }
 
-    const payload: LoginPayload = {
+    const payload: SignUpPayload = {
+      account_type: selectedRole,
       email,
       password,
     };
 
     setLocalLoading(true);
     try {
-      if (onLogin) {
-        // let parent handle the auth (page or navbar)
-        await onLogin(payload);
-      } else if (auth?.login) {
-        // fallback to AuthProvider's login if available
-        await auth.login({
+      if (onSignUp) {
+        await onSignUp(payload);
+      } else if (auth.register) {
+        await auth.register({
+          account_type: payload.account_type as any,
           email: payload.email,
           password: payload.password,
         });
       } else {
-        // no handler available — surface a helpful error
-        throw new Error("No login handler available.");
+        throw new Error("No sign-up handler available.");
       }
 
-      toast.success("Login successful. Redirecting to your dashboard...");
-      // success -> close modal
       onClose();
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : "Login failed";
-      toast.error(message);
+        err instanceof Error ? err.message : "Sign-up failed";
       setError(message);
     } finally {
       setLocalLoading(false);
@@ -90,11 +87,40 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5 text-green-500" />
-            Login to NCIR
+            Create Your Account
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="role">Role</Label>
+            <Select
+              onValueChange={(value) => setSelectedRole(value)}
+              value={selectedRole}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select your role" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-gray-200">
+                <SelectItem value="super-admin" className="hover:bg-gray-200">
+                  Super Admin (NCIR/Algorizmi)
+                </SelectItem>
+                <SelectItem value="contributor" className="hover:bg-gray-200">
+                  Contributor (Hospital/Clinic)
+                </SelectItem>
+                <SelectItem value="annotator" className="hover:bg-gray-200">
+                  Annotator (Medical Expert)
+                </SelectItem>
+                <SelectItem value="researcher" className="hover:bg-gray-200">
+                  Researcher (Academic/Industry)
+                </SelectItem>
+                <SelectItem value="ethicsofficer" className="hover:bg-gray-200">
+                  Ethics Officer (Audit)
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <div className="relative">
@@ -104,7 +130,7 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                 type="email"
                 placeholder="your.email@institution.ng"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
                 className="pl-10 border-gray-200 focus:ring-2 focus:ring-emerald-500 "
               />
             </div>
@@ -117,9 +143,9 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder="Create a strong password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
                 className="pl-10 pr-10 border-gray-200 focus:ring-2 focus:ring-emerald-500"
               />
               <Button
@@ -141,7 +167,7 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
           <div className="bg-muted p-3 rounded-md">
             <p className="text-xs text-gray-500">
               <Shield className="h-3 w-3 inline mr-1" />
-              This system uses 2FA and maintains full audit logs for compliance
+              All accounts undergo verification to ensure NDPR-compliant access.
             </p>
           </div>
 
@@ -152,16 +178,21 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
           )}
 
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={onClose} className="flex-1" disabled={loading}>
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="flex-1"
+              disabled={loading}
+            >
               Cancel
             </Button>
             <Button
               onClick={handleSubmit}
               variant="medical"
               className="flex-1"
-              disabled={!email || !password || loading}
+              disabled={!selectedRole || !email || !password || loading}
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? "Creating account..." : "Sign up securely"}
             </Button>
           </div>
         </div>
@@ -169,3 +200,4 @@ export const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
     </Dialog>
   );
 };
+

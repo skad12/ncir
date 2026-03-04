@@ -49,7 +49,7 @@ export default function DashboardPage() {
     );
   }
 
-  const userRole = user.role ?? "user";
+  const userRole = user.account_type ?? "user";
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -248,7 +248,7 @@ export default function DashboardPage() {
             {userRole === "contributor" && <ContributorModule userRole={userRole} />}
             {userRole === "annotator" && <AnnotationModule userRole={userRole} />}
             {userRole === "researcher" && <ResearcherModule userRole={userRole} />}
-            {userRole === "ethicsofficer" && <EthicsOfficerModule />}
+            {userRole === "ethics-officer" && <EthicsOfficerModule />}
           </TabsContent>
 
           <TabsContent value="analytics">

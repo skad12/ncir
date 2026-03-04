@@ -1,15 +1,21 @@
 // src/components/Hero.tsx
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Shield, Database, Brain, Lock } from "lucide-react";
 import Link from "next/link";
+import { SignUpModal } from "./SignUpModal";
 
 interface HeroProps {
   onGetStarted?: () => void;
 }
 
+
 export default function Hero({ onGetStarted = () => {} }: HeroProps) {
+
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [open, setOpen]= useState(false);
+
   return (
     <section className="relative bg-gradient-to-br from-blue-100 via-white to-green-100  sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +38,7 @@ export default function Hero({ onGetStarted = () => {} }: HeroProps) {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button
-              onClick={onGetStarted}
+             onClick={() => setSignUpOpen(true)}
               variant="medical"
               size="lg"
               className="text-lg px-8"
@@ -105,6 +111,10 @@ export default function Hero({ onGetStarted = () => {} }: HeroProps) {
           </div>
         </div>
       </div>
+      <SignUpModal
+        isOpen={signUpOpen}
+        onClose={() => setSignUpOpen(false)}
+      />
     </section>
   );
 }

@@ -3,34 +3,42 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn, signUp } from "../services/authApi";
 
-type Role = "super-admin" | "contributor" | "annotator" | "researcher" | "ethicsofficer";
+export type AccountType =
+  | "super-admin"
+  | "contributor"
+  | "annotator"
+  | "researcher"
+  | "ethics-officer";
 
-type User = {
-  id: string;
+export type User = {
+  id?: string;
   email: string;
-  role: Role;
+  account_type: AccountType;
   name?: string;
 };
 
-type LoginPayload = { email: string; password: string; role: Role };
+type LoginPayload = { email: string; password: string };
+type RegisterPayload = { email: string; password: string; account_type: AccountType };
 
 type AuthContextValue = {
   user: User | null;
   token: string | null;
   loading: boolean;
   login: (payload: LoginPayload) => Promise<void>;
+  register: (payload: RegisterPayload) => Promise<void>;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const ROLE_ROUTES: Record<Role, string> = {
+const ROLE_ROUTES: Record<AccountType, string> = {
   "super-admin": "/dashboard/superadmin",
   contributor: "/dashboard/contributor",
   annotator: "/dashboard/annotator",
   researcher: "/dashboard/researcher",
-  "ethicsofficer": "/dashboard/ethicsofficer",
+  "ethics-officer": "/dashboard/ethicsofficer",
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -62,44 +70,54 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {}
   };
 
-  const login = async ({ email, password, role }: LoginPayload) => {
+  const login = async ({ email, password }: LoginPayload) => {
     setLoading(true);
     try {
-      // call real backend
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role }),
-      });
+      const data = await signIn({ email, password });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Login failed");
+      const accountType =
+        data.account_type ??
+        data.user?.account_type;
+
+      if (!accountType) {
+        throw new Error("No account_type returned from sign-in.");
       }
 
-      const data = await res.json();
-      // expected { token: string, user: { id, email, role, name? } }
-      if (data?.token && data?.user) {
-        persist(data.token, data.user);
-        const route = ROLE_ROUTES[data.user.role as Role] || "/";
-        router.push(route);
-        return;
-      }
+      const user: User = {
+        email,
+        account_type: accountType as AccountType,
+      };
 
-      // fallback (in case server returns only route)
-      if (data?.route) {
-        router.push(data.route);
-        return;
-      }
-
-      throw new Error("Unexpected server response");
+      persist("session", user);
+      const route = ROLE_ROUTES[user.account_type] || "/";
+      router.push(route);
     } catch (err) {
-      // demo fallback if API missing or failed: create a demo user client-side
-      console.warn("Auth API failed — using demo fallback. Error:", err);
-      const fakeUser: User = { id: "demo-1", email, role, name: "Demo User" };
-      const fakeToken = "demo-token";
-      persist(fakeToken, fakeUser);
-      router.push(ROLE_ROUTES[role]);
+      console.error("Login failed:", err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async ({ email, password, account_type }: RegisterPayload) => {
+    setLoading(true);
+    try {
+      const data = await signUp({ email, password, account_type });
+
+      const returnedType =
+        data.account_type ?? account_type;
+
+      const user: User = {
+        email,
+        account_type: returnedType as AccountType,
+      };
+
+      persist("session", user);
+      const route = ROLE_ROUTES[user.account_type] || "/";
+      router.push(route);
+    } catch (err) {
+      console.error("Registration failed:", err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -114,7 +132,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, register, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
