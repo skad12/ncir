@@ -1,6 +1,7 @@
+
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
@@ -12,85 +13,55 @@ import { Copy, ExternalLink, Search, BookOpen, Award, Calendar, Users, Quote, Ch
 
 import { toast } from "sonner";
 import Navbar from "@/src/components/layouts/Navbar";
+import { listPublications, type PublicationItem } from "@/src/services/publicationApi";
 
-const publications = [
-  {
-    id: "pub-001",
-    title: "Deep Learning for Breast Cancer Detection in Nigerian Mammography Screening Programs",
-    authors: ["Dr. Adebayo O. Adeyemi", "Prof. Kemi Ogundipe", "Dr. James Okafor", "Dr. Sarah Mohammed"],
-    journal: "Nigerian Journal of Medical Imaging",
-    year: 2024,
-    volume: "15",
-    issue: "2",
-    pages: "125-142",
-    doi: "10.1234/njmi.2024.001",
-    pmid: "38456789",
-    type: "Original Research",
-    ncirDatasets: ["NCR-001"],
-    abstract: "This study evaluated the performance of deep learning algorithms for automated breast cancer detection using the NCIR mammography dataset. We trained and validated convolutional neural networks on 2,547 mammographic images from Nigerian women, achieving an AUC of 0.94 for cancer detection.",
-    keywords: ["Breast cancer", "Mammography", "Deep learning", "Nigeria", "Screening"],
-    citationCount: 23,
-    downloadCount: 456,
-    openAccess: true
-  },
-  {
-    id: "pub-002", 
-    title: "Cervical Cancer Histopathology Classification Using Transfer Learning: A Nigerian Multi-Center Study",
-    authors: ["Prof. Fatima Hassan", "Dr. Emeka Nwanko", "Dr. Aisha Bello", "Dr. Michael Okonkwo"],
-    journal: "African Journal of Pathology",
-    year: 2024,
-    volume: "8",
-    issue: "1",
-    pages: "45-58",
-    doi: "10.1234/ajp.2024.008",
-    pmid: "38234567",
-    type: "Original Research",
-    ncirDatasets: ["NCR-002"],
-    abstract: "We developed and validated a transfer learning approach for automated cervical cancer grading using histopathology images from Nigerian patients. The model demonstrated high accuracy in distinguishing between different grades of cervical intraepithelial neoplasia.",
-    keywords: ["Cervical cancer", "Histopathology", "Transfer learning", "HPV", "Nigeria"],
-    citationCount: 18,
-    downloadCount: 312,
-    openAccess: true
-  },
-  {
-    id: "pub-003",
-    title: "Lung Cancer Screening with Low-Dose CT: Implementation Challenges in Resource-Limited Settings",
-    authors: ["Dr. Chidi Ogundimu", "Prof. Ngozi Okwu", "Dr. Ahmed Suleiman"],
-    journal: "Global Oncology Review",
-    year: 2023,
-    volume: "12",
-    issue: "4",
-    pages: "78-89",
-    doi: "10.1234/gor.2023.045",
-    pmid: "37891234",
-    type: "Review Article",
-    ncirDatasets: ["NCR-003"],
-    abstract: "This comprehensive review examines the implementation of low-dose CT lung cancer screening programs in sub-Saharan Africa, with a focus on the Nigerian experience and lessons learned from the NCIR initiative.",
-    keywords: ["Lung cancer", "Screening", "Low-dose CT", "Africa", "Implementation"],
-    citationCount: 31,
-    downloadCount: 567,
-    openAccess: false
-  },
-  {
-    id: "pub-004",
-    title: "Prostate Cancer Detection Using Multi-parametric MRI: A Machine Learning Approach",
-    authors: ["Dr. Yusuf Ibrahim", "Prof. Olumide Adeleke", "Dr. Grace Okoro"],
-    journal: "International Journal of Medical AI",
-    year: 2024,
-    volume: "3",
-    issue: "2",
-    pages: "234-248",
-    doi: "10.1234/ijmai.2024.012",
-    pmid: "38567890",
-    type: "Original Research", 
-    ncirDatasets: ["NCR-004"],
-    abstract: "This study presents a machine learning pipeline for automated prostate cancer detection and localization using multi-parametric MRI data from Nigerian patients, achieving comparable performance to international standards.",
-    keywords: ["Prostate cancer", "MRI", "Machine learning", "PI-RADS", "Nigeria"],
-    citationCount: 15,
-    downloadCount: 289,
-    openAccess: true
-  }
-];
+type PublicationDisplay = {
+  id: string;
+  title: string;
+  authors: string[];
+  journal: string;
+  year: number;
+  volume: string;
+  issue: string;
+  pages: string;
+  doi: string;
+  pmid: string;
+  type: string;
+  ncirDatasets: string[];
+  abstract: string;
+  keywords: string[];
+  citationCount: number;
+  downloadCount: number;
+  openAccess: boolean;
+};
+
+function mapPublicationToDisplay(p: PublicationItem): PublicationDisplay {
+  const authorsStr = p.authors || "";
+  const authors = authorsStr ? authorsStr.split(",").map((s) => s.trim()).filter(Boolean) : [];
+  const keywordsStr = p.keywords || "";
+  const keywords = keywordsStr ? keywordsStr.split(",").map((s) => s.trim()).filter(Boolean) : [];
+  const year = p.year ? parseInt(p.year, 10) : (p.pub_date ? new Date(p.pub_date).getFullYear() : new Date().getFullYear());
+  const ncirDatasets = p.dataset_used ? [p.dataset_used] : [];
+  return {
+    id: p.id,
+    title: p.title || "Untitled",
+    authors,
+    journal: p.journal || "",
+    year: isNaN(year) ? new Date().getFullYear() : year,
+    volume: p.volume || "",
+    issue: "",
+    pages: "",
+    doi: "",
+    pmid: "",
+    type: p.type || "Publication",
+    ncirDatasets,
+    abstract: p.abstract || "",
+    keywords,
+    citationCount: p.citation_count || 0,
+    downloadCount: p.download_count || 0,
+    openAccess: p.open_access ?? true,
+  };
+}
 
 const citationFormats = {
   apa: "American Psychological Association (APA)",
@@ -105,26 +76,52 @@ const Publications = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [selectedDataset, setSelectedDataset] = useState("");
+  const [publications, setPublications] = useState<PublicationDisplay[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredPublications = publications.filter(pub => {
+  useEffect(() => {
+    let cancelled = false;
+    listPublications()
+      .then((pubList) => {
+        if (!cancelled) {
+          setPublications((Array.isArray(pubList) ? pubList : []).map(mapPublicationToDisplay));
+          setError(null);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Failed to load publications");
+          setPublications([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filteredPublications = publications.filter((pub) => {
     return (
       (pub.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       pub.authors.some(author => author.toLowerCase().includes(searchTerm.toLowerCase())) ||
-       pub.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))) &&
+        pub.authors.some((author) => author.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        pub.keywords.some((keyword) => keyword.toLowerCase().includes(searchTerm.toLowerCase()))) &&
       (selectedYear === "" || selectedYear === "all" || pub.year.toString() === selectedYear) &&
       (selectedType === "" || selectedType === "all" || pub.type === selectedType) &&
       (selectedDataset === "" || selectedDataset === "all" || pub.ncirDatasets.includes(selectedDataset))
     );
   });
 
-  const generateCitation = (publication: typeof publications[0], format: string) => {
+  const generateCitation = (publication: PublicationDisplay, format: string) => {
     const authorList = publication.authors.join(", ");
     
     switch (format) {
       case "apa":
-        return `${authorList} (${publication.year}). ${publication.title}. ${publication.journal}, ${publication.volume}(${publication.issue}), ${publication.pages}. https://doi.org/${publication.doi}`;
+        return `${authorList} (${publication.year}). ${publication.title}. ${publication.journal}, ${publication.volume}${publication.issue ? `(${publication.issue})` : ""}${publication.pages ? `, ${publication.pages}` : ""}.${publication.doi ? ` https://doi.org/${publication.doi}` : ""}`;
       case "vancouver":
-        return `${authorList}. ${publication.title}. ${publication.journal}. ${publication.year};${publication.volume}(${publication.issue}):${publication.pages}.`;
+        return `${authorList}. ${publication.title}. ${publication.journal}. ${publication.year};${publication.volume}${publication.issue ? `(${publication.issue})` : ""}${publication.pages ? `:${publication.pages}` : ""}.`;
       case "bibtex":
         return `@article{${publication.id},
   title={${publication.title}},
@@ -147,6 +144,7 @@ const Publications = () => {
 %P ${publication.pages}
 %R ${publication.doi}`;
       case "ris":
+        const [sp, ep] = publication.pages ? publication.pages.split("-") : ["", ""];
         return `TY  - JOUR
 TI  - ${publication.title}
 AU  - ${publication.authors.join("\nAU  - ")}
@@ -154,8 +152,8 @@ JO  - ${publication.journal}
 PY  - ${publication.year}
 VL  - ${publication.volume}
 IS  - ${publication.issue}
-SP  - ${publication.pages.split("-")[0]}
-EP  - ${publication.pages.split("-")[1]}
+SP  - ${sp}
+EP  - ${ep}
 DO  - ${publication.doi}
 ER  -`;
       default:
@@ -163,7 +161,7 @@ ER  -`;
     }
   };
 
-  const copyCitation = (publication: typeof publications[0], format: string) => {
+  const copyCitation = (publication: PublicationDisplay, format: string) => {
     const citation = generateCitation(publication, format);
     navigator.clipboard.writeText(citation);
     toast.success(`Citation copied in ${citationFormats[format as keyof typeof citationFormats]} format`);
@@ -175,34 +173,37 @@ ER  -`;
 
   return (
     <div className="min-h-screen bg-background">
-   <Navbar />
-      
+      <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-      
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold  mb-4">
-            NCIR Publications & Citations
-          </h1>
+          <h1 className="text-4xl font-bold mb-4">NCIR Publications & Citations</h1>
           <p className="text-lg text-gray-500 max-w-3xl mx-auto">
             Explore research publications that have utilized NCIR datasets and learn how to properly cite our data collections in your own research.
           </p>
         </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-destructive/10 text-destructive rounded-lg text-sm">
+            {error}
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6 text-center">
               <BookOpen className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold ">{publications.length}</div>
+              <div className="text-2xl font-bold ">
+                {loading ? "—" : publications.length}
+              </div>
               <div className="text-sm text-gray-500">Total Publications</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
               <Quote className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-boldgray-500">
-                {publications.reduce((sum, p) => sum + p.citationCount, 0)}
+              <div className="text-2xl font-bold text-gray-900">
+                {loading ? "—" : publications.reduce((sum, p) => sum + p.citationCount, 0)}
               </div>
               <div className="text-sm text-gray-500">Total Citations</div>
             </CardContent>
@@ -249,7 +250,7 @@ ER  -`;
                   placeholder="Search publications by title, author, or keywords..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10  border-gray-200 focus:ring-2 focus:ring-emerald-500"
+                  className="pl-10 border-gray-200 focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <Select value={selectedYear} onValueChange={setSelectedYear}>
@@ -288,6 +289,11 @@ ER  -`;
             </div>
 
             {/* Publications List */}
+            {loading ? (
+              <div className="text-center py-12 text-muted-foreground">
+                Loading publications...
+              </div>
+            ) : (
             <div className="space-y-6">
               {filteredPublications.map((publication) => (
                 <Card key={publication.id} className="hover:shadow-lg transition-shadow">
@@ -411,6 +417,7 @@ ER  -`;
                 </Card>
               ))}
             </div>
+            )}
           </TabsContent>
 
           {/* Cite Datasets Tab */}

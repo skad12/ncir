@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -27,107 +27,92 @@ import {
   Calendar,
   Database,
 } from "lucide-react";
+import { listCancerImaging, type CancerImagingItem } from "../services/cancerImagingApi";
 
-/* ---- DATA ---- */
-const publicDatasets = [
-  {
-    id: "NCR-001",
-    title: "Breast Cancer Mammography Collection",
-    description: "Comprehensive mammography dataset with annotations for breast cancer detection and classification",
-    institution: "University College Hospital, Ibadan",
-    cancerType: "Breast Cancer",
-    modality: "Mammography",
-    imageCount: 2547,
-    annotatedCount: 2547,
-    downloadCount: 156,
-    publicationDate: "2024-01-15",
-    size: "45.2 GB",
-    license: "CC BY-NC 4.0",
-    tags: ["Mammography", "BI-RADS", "Screening", "Diagnosis"],
-    citations: 12,
-    doi: "10.5281/zenodo.7890123"
-  },
-  {
-    id: "NCR-002", 
-    title: "Cervical Cancer Histopathology Images",
-    description: "High-resolution histopathology slides for cervical cancer grading and HPV correlation studies",
-    institution: "Lagos University Teaching Hospital",
-    cancerType: "Cervical Cancer",
-    modality: "Histopathology",
-    imageCount: 1832,
-    annotatedCount: 1654,
-    downloadCount: 89,
-    publicationDate: "2024-02-20",
-    size: "78.9 GB",
-    license: "CC BY-NC-SA 4.0",
-    tags: ["Histopathology", "HPV", "Grading", "Pap Smear"],
-    citations: 8,
-    doi: "10.5281/zenodo.7890124"
-  },
-  {
-    id: "NCR-003",
-    title: "Lung Cancer CT Screening Dataset",
-    description: "Low-dose CT scans for lung cancer screening with nodule annotations and malignancy scores",
-    institution: "National Hospital Abuja",
-    cancerType: "Lung Cancer", 
-    modality: "CT",
-    imageCount: 3421,
-    annotatedCount: 2987,
-    downloadCount: 234,
-    publicationDate: "2023-11-08",
-    size: "128.7 GB",
-    license: "CC BY 4.0",
-    tags: ["LDCT", "Nodules", "Screening", "LIDC-IDRI"],
-    citations: 18,
-    doi: "10.5281/zenodo.7890125"
-  },
-  {
-    id: "NCR-004",
-    title: "Prostate Cancer MRI Collection",
-    description: "Multi-parametric MRI sequences (T2W, DWI, DCE) for prostate cancer detection and staging",
-    institution: "Ahmadu Bello University Teaching Hospital",
-    cancerType: "Prostate Cancer",
-    modality: "MRI",
-    imageCount: 1456,
-    annotatedCount: 1298,
-    downloadCount: 167,
-    publicationDate: "2024-03-12",
-    size: "89.3 GB", 
-    license: "CC BY-NC 4.0",
-    tags: ["mpMRI", "PI-RADS", "DWI", "T2W"],
-    citations: 6,
-    doi: "10.5281/zenodo.7890126"
-  },
-  {
-    id: "NCR-005",
-    title: "Colorectal Cancer Endoscopy Dataset",
-    description: "Colonoscopy images with polyp detection and adenoma classification annotations",
-    institution: "University of Port Harcourt Teaching Hospital",
-    cancerType: "Colorectal Cancer",
-    modality: "Endoscopy",
-    imageCount: 5632,
-    annotatedCount: 4891,
-    downloadCount: 98,
-    publicationDate: "2024-01-28",
-    size: "34.6 GB",
-    license: "CC BY-SA 4.0",
-    tags: ["Colonoscopy", "Polyps", "Adenoma", "CRC Screening"],
-    citations: 4,
-    doi: "10.5281/zenodo.7890127"
-  }
-];
+type DatasetCard = {
+  id: string;
+  title: string;
+  description: string;
+  institution: string;
+  cancerType: string;
+  modality: string;
+  imageCount: number;
+  downloadCount: number;
+  publicationDate: string;
+  size: string;
+  license: string;
+  tags: string[];
+  citations: number;
+};
 
-/* ---- COMPONENT ---- */
+function mapApiToCard(item: CancerImagingItem): DatasetCard {
+  const keywords = (item.keywords || "")
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
+  const tags = [
+    ...new Set([
+      item.modality || "",
+      item.cancer_type || "",
+      ...keywords,
+    ].filter(Boolean)),
+  ];
+  return {
+    id: item.id,
+    title: item.title || "Untitled dataset",
+    description: item.description || "",
+    institution: item.institution || "",
+    cancerType: item.cancer_type || "",
+    modality: item.modality || "",
+    imageCount: item.images ?? 0,
+    downloadCount: item.downloads ?? 0,
+    publicationDate: item.pub_date
+      ? new Date(item.pub_date).toISOString().slice(0, 10)
+      : "",
+    size: item.file_size || "",
+    license: item.licience || "",
+    tags,
+    citations: item.citations ?? 0,
+  };
+}
+
 export const PublicDatasets = () => {
   const [search, setSearch] = useState("");
   const [cancerType, setCancerType] = useState("");
   const [modality, setModality] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [datasets, setDatasets] = useState<DatasetCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const cancerTypes = [...new Set(publicDatasets.map(d => d.cancerType))];
-  const modalities = [...new Set(publicDatasets.map(d => d.modality))];
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    listCancerImaging()
+      .then((list) => {
+        if (!cancelled) {
+          setDatasets(list.map(mapApiToCard));
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Failed to load datasets");
+          setDatasets([]);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-  const filtered = publicDatasets.filter(d => {
+  const cancerTypes = [...new Set(datasets.map((d) => d.cancerType))].filter(Boolean);
+  const modalities = [...new Set(datasets.map((d) => d.modality))].filter(Boolean);
+
+  const filtered = datasets.filter((d) => {
     const matchesSearch =
       d.title.toLowerCase().includes(search.toLowerCase()) ||
       d.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -212,12 +197,20 @@ export const PublicDatasets = () => {
           )}
         </div>
 
-         {/* Dataset Stats */}
-         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        {error && (
+          <div className="mb-6 p-4 bg-destructive/10 text-destructive rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Dataset Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
           <Card>
             <CardContent className="p-6 text-center">
               <Database className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-foreground">{publicDatasets.length}</div>
+              <div className="text-2xl font-bold text-foreground">
+                {loading ? "—" : datasets.length}
+              </div>
               <div className="text-sm text-muted-foreground">Public Datasets</div>
             </CardContent>
           </Card>
@@ -225,7 +218,9 @@ export const PublicDatasets = () => {
             <CardContent className="p-6 text-center">
               <Eye className="h-8 w-8 text-green-500 mx-auto mb-2" />
               <div className="text-2xl font-bold text-foreground">
-                {publicDatasets.reduce((sum, d) => sum + d.imageCount, 0).toLocaleString()}
+                {loading
+                  ? "—"
+                  : datasets.reduce((sum, d) => sum + d.imageCount, 0).toLocaleString()}
               </div>
               <div className="text-sm text-muted-foreground">Total Images</div>
             </CardContent>
@@ -234,7 +229,9 @@ export const PublicDatasets = () => {
             <CardContent className="p-6 text-center">
               <Download className="h-8 w-8 text-green-500 mx-auto mb-2" />
               <div className="text-2xl font-bold text-foreground">
-                {publicDatasets.reduce((sum, d) => sum + d.downloadCount, 0).toLocaleString()}
+                {loading
+                  ? "—"
+                  : datasets.reduce((sum, d) => sum + d.downloadCount, 0).toLocaleString()}
               </div>
               <div className="text-sm text-muted-foreground">Total Downloads</div>
             </CardContent>
@@ -243,7 +240,7 @@ export const PublicDatasets = () => {
             <CardContent className="p-6 text-center">
               <Users className="h-8 w-8 text-green-500 mx-auto mb-2" />
               <div className="text-2xl font-bold text-foreground">
-                {publicDatasets.reduce((sum, d) => sum + d.citations, 0)}
+                {loading ? "—" : datasets.reduce((sum, d) => sum + d.citations, 0)}
               </div>
               <div className="text-sm text-muted-foreground">Total Citations</div>
             </CardContent>
@@ -251,8 +248,13 @@ export const PublicDatasets = () => {
         </div>
 
         {/* Dataset Cards */}
+        {loading ? (
+          <div className="text-center py-16 text-muted-foreground">
+            Loading datasets...
+          </div>
+        ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filtered.map(ds => (
+          {filtered.map((ds) => (
             <Card
               key={ds.id}
               className="hover:shadow-lg transition-shadow  "
@@ -342,12 +344,15 @@ export const PublicDatasets = () => {
             </Card>
           ))}
         </div>
+        )}
 
-        {filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <div className="text-center py-16">
             <Database className="h-12 w-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-600">
-              No datasets match your search.
+              {datasets.length === 0
+                ? "No datasets available yet."
+                : "No datasets match your search."}
             </p>
           </div>
         )}

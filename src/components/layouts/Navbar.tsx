@@ -35,10 +35,10 @@ export default function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-6 text-sm">
-              <Link href="#about" className="text-gray-600 hover:text-gray-900">
+              <Link href="/about" className="text-gray-600 hover:text-gray-900">
                 About
               </Link>
-              <Link href="#research" className="text-gray-600 hover:text-gray-900">
+              <Link href="/research" className="text-gray-600 hover:text-gray-900">
                 Research
               </Link>
               <Link href="/journal" className="text-gray-600 hover:text-gray-900">
@@ -47,7 +47,7 @@ export default function Navbar() {
               <Link href="/publications" className="text-gray-600 hover:text-gray-900">
                 Publications
               </Link>
-              <Link href="#compliance" className="text-gray-600 hover:text-gray-900">
+              <Link href="/compliance" className="text-gray-600 hover:text-gray-900">
                 Compliance
               </Link>
 

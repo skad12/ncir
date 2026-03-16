@@ -12,8 +12,19 @@ export const ENDPOINTS = {
   },
   CANCER_IMAGING: {
     LIST: "/cancer-imaging/cancer-imaging/",
+    CREATE: "/cancer-imaging/cancer-imaging/",
     DETAIL: (id: string | number) =>
       `/cancer-imaging/cancer-imaging/${id}/`,
   },
+  JOURNAL: {
+    LIST: "/journal/journal/",
+    CREATE: "/journal/journal/",
+  },
+  PUBLICATION: {
+    LIST: "/publication/publication/",
+    CREATE: "/publication/publication/",
+  }
+
+
 } as const;
 

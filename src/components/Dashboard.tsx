@@ -236,7 +236,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userRole, onLogout }) => {
           <TabsContent value="settings">
             <Card>
               <CardContent className="pt-6 text-center">
-                <Settings className="h-16 w-16 mx-auto text-primary mb-4" />
+                <Settings className="h-16 w-16 mx-auto text-green-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">System Settings</h3>
                 <p className="text-muted-foreground">Configure platform settings and preferences</p>
               </CardContent>

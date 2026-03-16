@@ -1,222 +1,3 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import { Upload, CheckCircle } from "lucide-react";
-// import { Button } from "../components/ui/button";
-
-// interface SubmitDataModalProps {
-//   children: React.ReactNode;
-// }
-
-// type FormState = {
-//   fullName: string;
-//   email: string;
-//   phone: string;
-//   institution: string;
-//   position: string;
-//   department: string;
-//   datasetTitle: string;
-//   description: string;
-//   cancerType: string;
-//   modality: string;
-//   approximateSize: string;
-//   numberOfImages: string;
-//   acquisitionPeriod: string;
-//   ethicsApproval: boolean;
-//   ethicsNumber: string;
-//   patientConsent: boolean;
-//   ndprCompliance: boolean;
-//   institutionalApproval: boolean;
-//   fundingSource: string;
-//   collaborators: string;
-//   intendedUse: string;
-//   additionalNotes: string;
-// };
-
-// const EMPTY_FORM: FormState = {
-//   fullName: "",
-//   email: "",
-//   phone: "",
-//   institution: "",
-//   position: "",
-//   department: "",
-//   datasetTitle: "",
-//   description: "",
-//   cancerType: "",
-//   modality: "",
-//   approximateSize: "",
-//   numberOfImages: "",
-//   acquisitionPeriod: "",
-//   ethicsApproval: false,
-//   ethicsNumber: "",
-//   patientConsent: false,
-//   ndprCompliance: false,
-//   institutionalApproval: false,
-//   fundingSource: "",
-//   collaborators: "",
-//   intendedUse: "",
-//   additionalNotes: "",
-// };
-
-// export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [currentStep, setCurrentStep] = useState(1);
-//   const [formData, setFormData] = useState<FormState>({ ...EMPTY_FORM });
-//   const [submitting, setSubmitting] = useState(false);
-//   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-//   const handleInputChange = (field: keyof FormState, value: string | boolean) =>
-//     setFormData((prev) => ({ ...prev, [field]: value }));
-
-//   const resetForm = () => {
-//     setFormData({ ...EMPTY_FORM });
-//     setCurrentStep(1);
-//   };
-
-//   useEffect(() => {
-//     function onKey(e: KeyboardEvent) {
-//       if (e.key === "Escape") setIsOpen(false);
-//     }
-//     if (isOpen) document.addEventListener("keydown", onKey);
-//     return () => document.removeEventListener("keydown", onKey);
-//   }, [isOpen]);
-
-//   const canProceedToStep2 =
-//     !!formData.fullName && !!formData.email && !!formData.institution && !!formData.position;
-//   const canProceedToStep3 =
-//     !!formData.datasetTitle && !!formData.description && !!formData.cancerType && !!formData.modality;
-//   const canSubmit =
-//     formData.ethicsApproval && formData.patientConsent && formData.ndprCompliance && formData.institutionalApproval;
-
-//   const handleSubmit = async () => {
-//     setSubmitting(true);
-//     try {
-//       await new Promise((r) => setTimeout(r, 700));
-//       console.log("SubmitDataModal: submitting", formData);
-//       setSuccessMessage("Data submission request sent! We'll review and contact you within 5 business days.");
-//       setIsOpen(false);
-//       resetForm();
-//     } catch (err) {
-//       console.error("Submission failed", err);
-//     } finally {
-//       setSubmitting(false);
-//     }
-//   };
-
- 
-//   const trigger = React.isValidElement(children)
-//     ? (() => {
-//         const child = children as React.ReactElement<any, any>;
-//         const childOnClick = child.props?.onClick;
-
-//         return React.cloneElement(child, {
-//           onClick: (e: any) => {
-//             if (typeof childOnClick === "function") childOnClick(e);
-//             setIsOpen(true);
-//           },
-//         } as any);
-//       })()
-//     : (
-//       <button onClick={() => setIsOpen(true)} className="inline-block">
-//         {children}
-//       </button>
-//     );
-
-//   return (
-//     <>
-//       {trigger}
-
-//       {isOpen && (
-//         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20">
-//           <div
-//             className="fixed inset-0 bg-black/40"
-//             onClick={() => setIsOpen(false)}
-//             aria-hidden
-//           />
-
-//           <div className="relative z-10 w-full max-w-4xl mx-4">
-//             <div className="bg-white rounded-lg shadow-lg overflow-hidden max-h-[85vh]">
-
-//               {/* Header */}
-//               <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-gray-100">
-//                 <div className="flex items-center gap-3">
-//                   <Upload className="h-5 w-5 text-emerald-600" />
-//                   <div>
-//                     <h3 className="text-lg font-semibold text-gray-900">
-//                       Submit Cancer Imaging Data
-//                     </h3>
-//                     <p className="text-sm text-gray-600">
-//                       All submissions undergo ethical review and quality assessment.
-//                     </p>
-//                   </div>
-//                 </div>
-
-//                 <button
-//                   onClick={() => setIsOpen(false)}
-//                   className="text-sm text-gray-500 hover:text-gray-800"
-//                 >
-//                   Close
-//                 </button>
-//               </div>
-
-//               {/* Steps UI + Form sections remain EXACTLY AS YOU HAD THEM */}
-//               {/* I kept everything unchanged to avoid breaking layout */}
-
-//               {/* Footer */}
-//               <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between gap-4">
-//                 <div>
-//                   {currentStep > 1 && (
-//                     <Button variant="outline" onClick={() => setCurrentStep((s) => s - 1)}>
-//                       Previous
-//                     </Button>
-//                   )}
-//                 </div>
-
-//                 <div className="flex items-center gap-3">
-//                   {currentStep < 4 ? (
-//                     <Button
-//                       onClick={() => setCurrentStep((s) => s + 1)}
-//                       disabled={
-//                         (currentStep === 1 && !canProceedToStep2) ||
-//                         (currentStep === 2 && !canProceedToStep3)
-//                       }
-//                     >
-//                       Next
-//                     </Button>
-//                   ) : (
-//                     <Button
-//                       onClick={handleSubmit}
-//                       disabled={!canSubmit || submitting}
-//                       className="bg-emerald-600 hover:bg-emerald-700"
-//                     >
-//                       {submitting ? "Submitting..." : "Submit Application"}
-//                     </Button>
-//                   )}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {successMessage && (
-//         <div className="fixed right-6 bottom-6 z-50">
-//           <div className="rounded-md bg-emerald-600 text-white px-4 py-3 shadow">
-//             {successMessage}
-//             <button
-//               onClick={() => setSuccessMessage(null)}
-//               className="ml-3 text-sm underline"
-//             >
-//               Dismiss
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-
 
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/src/components/ui/dialog";
@@ -227,8 +8,13 @@ import { Textarea } from "@/src/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card";
-import { Upload, Mail, Phone, Building, FileText, Shield, CheckCircle } from "lucide-react";
+import { Upload, Building, FileText, Shield, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
+
+import {
+  createCancerImaging,
+  type CancerImagingCreatePayload,
+} from "../services/cancerImagingApi";
 
 interface SubmitDataModalProps {
   children: React.ReactNode;
@@ -237,6 +23,8 @@ interface SubmitDataModalProps {
 export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     // Applicant Information
     fullName: "",
@@ -245,7 +33,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
     institution: "",
     position: "",
     department: "",
-    
+
     // Data Information
     datasetTitle: "",
     description: "",
@@ -254,14 +42,15 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
     approximateSize: "",
     numberOfImages: "",
     acquisitionPeriod: "",
-    
+    license: "", // UI / internal name
+
     // Ethics and Compliance
     ethicsApproval: false,
     ethicsNumber: "",
     patientConsent: false,
     ndprCompliance: false,
     institutionalApproval: false,
-    
+
     // Additional Information
     fundingSource: "",
     collaborators: "",
@@ -273,11 +62,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
-    // This would typically send data to backend
-    toast.success("Data submission request sent! We'll review your application and contact you within 5 business days.");
-    setIsOpen(false);
-    setCurrentStep(1);
+  const resetForm = () => {
     setFormData({
       fullName: "",
       email: "",
@@ -292,6 +77,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
       approximateSize: "",
       numberOfImages: "",
       acquisitionPeriod: "",
+      license: "",
       ethicsApproval: false,
       ethicsNumber: "",
       patientConsent: false,
@@ -302,11 +88,94 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
       intendedUse: "",
       additionalNotes: ""
     });
+    setCurrentStep(1);
   };
 
-  const canProceedToStep2 = formData.fullName && formData.email && formData.institution && formData.position;
-  const canProceedToStep3 = formData.datasetTitle && formData.description && formData.cancerType && formData.modality;
+  const canProceedToStep2 = !!(formData.fullName && formData.email && formData.institution && formData.position);
+  const canProceedToStep3 = !!(formData.datasetTitle && formData.description && formData.cancerType && formData.modality && formData.license);
   const canSubmit = formData.ethicsApproval && formData.patientConsent && formData.ndprCompliance && formData.institutionalApproval;
+
+  const handleSubmit = async () => {
+    if (!canSubmit) {
+      toast.error("Please confirm all compliance checkboxes before submitting.");
+      return;
+    }
+
+    setLoading(true);
+    const now = new Date().toISOString();
+    const imagesNumber = Number(formData.numberOfImages) || 0;
+
+    const payload: CancerImagingCreatePayload = {
+      applicant_info: {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        title: formData.position,
+        institution: formData.institution,
+        department: formData.department,
+        status: true,
+        pub_date: now,
+      },
+      dataset_info: {
+        title: formData.datasetTitle,
+        description: formData.description,
+        primary_cancer_type: formData.cancerType,
+        primary_modality: formData.modality,
+        no_of_images: formData.numberOfImages || "",
+        dataset_size: formData.approximateSize || "",
+        data_acquisition_period: formData.acquisitionPeriod || "",
+        // backend expects the misspelled key "licience"
+        licience: formData.license || "", // <- intentional mapping
+        status: true,
+        pub_date: now,
+      },
+      compliance_info: {
+        title: formData.ethicsNumber || "Ethics & Compliance",
+        ethics_committee_approval: !!formData.ethicsApproval,
+        patient_consent: !!formData.patientConsent,
+        ndpr_compliance: !!formData.ndprCompliance,
+        institutional_authorization: !!formData.institutionalApproval,
+        pub_date: now,
+      },
+      additional_info: {
+        funding_source: formData.fundingSource || "",
+        intended_research_se: formData.intendedUse || "",
+        note: formData.additionalNotes || "",
+        pub_date: now,
+      },
+      title: formData.datasetTitle || "",
+      description: formData.description || "",
+      keywords: `${formData.cancerType || ""}, ${formData.modality || ""}`.trim(),
+      institution: formData.institution || "",
+      cancer_type: formData.cancerType || "",
+      modality: formData.modality || "",
+      // top-level misspelled key to match expected response body
+      licience: formData.license || "", // <- intentional mapping
+      file_size: formData.approximateSize || "",
+      images: imagesNumber,
+      downloads: 0,
+      citations: 0,
+      status: true,
+      verified: false,
+      pub_date: now,
+    };
+
+    try {
+      await createCancerImaging(payload);
+      toast.success(
+        "Data submission request sent! We'll review your application and contact you within 5 business days."
+      );
+      resetForm();
+      setIsOpen(false);
+    } catch (err) {
+      console.error("Submission error", err);
+      const message =
+        err instanceof Error ? err.message : "Failed to submit. Try again later.";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen} >
@@ -331,8 +200,8 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
             <div key={step} className="flex items-center">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                 currentStep >= step 
-                  ? 'bg-primary text-green-500' 
-                  : 'bg-muted text-gray-500'
+                  ? 'bg-green-500 text-white' 
+                  : 'bg-gray-200 text-gray-500'
               }`}>
                 {currentStep > step ? <CheckCircle className="h-4 w-4 " /> : step}
               </div>
@@ -345,7 +214,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
           ))}
         </div>
 
-        {/* Step 1: Applicant Information */}
+        {/* Steps UI */}
         {currentStep === 1 && (
           <Card>
             <CardHeader>
@@ -425,7 +294,6 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
           </Card>
         )}
 
-        {/* Step 2: Data Information */}
         {currentStep === 2 && (
           <Card>
             <CardHeader>
@@ -515,22 +383,33 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
                     className="focus:ring-2 focus:ring-emerald-500 border-gray-200"
                   />
                 </div>
+
+                <div>
+                  <Label htmlFor="acquisitionPeriod">Data Acquisition Period</Label>
+                  <Input
+                    id="acquisitionPeriod"
+                    value={formData.acquisitionPeriod}
+                    onChange={(e) => handleInputChange('acquisitionPeriod', e.target.value)}
+                    placeholder="e.g., January 2020 - December 2023"
+                    className="focus:ring-2 focus:ring-emerald-500 border-gray-200"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="license">License</Label>
+                  <Input
+                    id="license"
+                    value={formData.license}
+                    onChange={(e) => handleInputChange('license', e.target.value)}
+                    placeholder="e.g., EDS23546"
+                    className="focus:ring-2 focus:ring-emerald-500 border-gray-200"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="acquisitionPeriod">Data Acquisition Period</Label>
-                <Input
-                  id="acquisitionPeriod"
-                  value={formData.acquisitionPeriod}
-                  onChange={(e) => handleInputChange('acquisitionPeriod', e.target.value)}
-                  placeholder="e.g., January 2020 - December 2023"
-                  className="focus:ring-2 focus:ring-emerald-500 border-gray-200"
-                />
-              </div>
+              
             </CardContent>
           </Card>
         )}
 
-        {/* Step 3: Ethics and Compliance */}
         {currentStep === 3 && (
           <Card>
             <CardHeader>
@@ -560,7 +439,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
                     </p>
                   </div>
                 </div>
-                
+
                 {formData.ethicsApproval && (
                   <div className="ml-6">
                     <Label htmlFor="ethicsNumber">Ethics Approval Number</Label>
@@ -629,7 +508,6 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
           </Card>
         )}
 
-        {/* Step 4: Additional Information */}
         {currentStep === 4 && (
           <Card>
             <CardHeader>
@@ -690,7 +568,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
         <div className="flex justify-between pt-6">
           <div>
             {currentStep > 1 && (
-              <Button variant="outline" onClick={() => setCurrentStep(currentStep - 1)}>
+              <Button variant="outline" onClick={() => setCurrentStep(currentStep - 1)} disabled={loading}>
                 Previous
               </Button>
             )}
@@ -700,6 +578,7 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
               <Button 
                 onClick={() => setCurrentStep(currentStep + 1)}
                 disabled={
+                  loading ||
                   (currentStep === 1 && !canProceedToStep2) ||
                   (currentStep === 2 && !canProceedToStep3)
                 }
@@ -709,10 +588,10 @@ export const SubmitDataModal = ({ children }: SubmitDataModalProps) => {
             ) : (
               <Button 
                 onClick={handleSubmit}
-                disabled={!canSubmit}
+                disabled={loading || !canSubmit}
                 className="bg-primary hover:bg-primary/90"
               >
-                Submit Application
+                {loading ? "Submitting..." : "Submit Application"}
               </Button>
             )}
           </div>
