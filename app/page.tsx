@@ -45,15 +45,6 @@ const Index = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <NigeriaMap />
       </div>
-
-      {/* Research */}
-      {/* <div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
-        id="research"
-      >
-        <ResearchSection />
-      </div> */}
-
     </div>
   );
 };
