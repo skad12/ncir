@@ -28,6 +28,7 @@ import {
   Database,
 } from "lucide-react";
 import { listCancerImaging, type CancerImagingItem } from "../services/cancerImagingApi";
+import { DatasetPreviewModal } from "./DatasetPreviewModal";
 
 type DatasetCard = {
   id: string;
@@ -84,6 +85,7 @@ export const PublicDatasets = () => {
   const [datasets, setDatasets] = useState<DatasetCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedDataset, setSelectedDataset] = useState<DatasetCard | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -107,6 +109,15 @@ export const PublicDatasets = () => {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedDataset(null);
+    };
+  
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
   const cancerTypes = [...new Set(datasets.map((d) => d.cancerType))].filter(Boolean);
@@ -327,10 +338,14 @@ export const PublicDatasets = () => {
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>
-                  <Button variant="outline" className="flex-1">
+                  <Button variant="outline" className="flex-1"  onClick={() => setSelectedDataset(ds)}>
                     <Eye className="h-4 w-4 mr-2" />
                     Preview
                   </Button>
+                  <DatasetPreviewModal
+  dataset={selectedDataset}
+  onClose={() => setSelectedDataset(null)}
+/>
                 </div>
 
                 <div className="flex justify-between items-center text-xs text-slate-500 mt-4 pt-4 border-t">

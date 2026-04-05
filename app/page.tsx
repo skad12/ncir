@@ -3,7 +3,6 @@
 
 import Hero from "../src/components/Hero";
 import NigeriaMap from "../src/components/NigeriaMap";
-import { ResearchSection } from "../src/components/ResearchSection";
 import { PublicDatasets } from "../src/components/PublicDatasets";
 import { SubmitDataModal } from "../src/components/SubmitDataModal";
 import { Button } from "../src/components/ui/button";
