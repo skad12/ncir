@@ -255,7 +255,7 @@ export const DatasetPreviewModal = ({ dataset, onClose }: Props) => {
 
               <Button
                 variant="outline"
-                className="mt-3 w-full rounded-xl border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                className="mt-3 w-full rounded-xl border-white/20 bg-transparent text-black hover:bg-white/10 hover:text-white"
                 onClick={onClose}
               >
                 Close Preview
